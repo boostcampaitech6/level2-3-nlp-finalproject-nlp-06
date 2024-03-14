@@ -1,0 +1,20 @@
+{"model_name": "et5-base",
+"model_detail" : "et5-banmal-tag-by-rougel-f1",
+"resume_path" : "",
+
+"metric": "val_rouge-l-f1",
+"metric_mode": "max",
+
+"wandb_entity" : "gypsi12",
+"wandb_project" : "persona_extraction",
+"wandb_run_name" : "et5-banmal-tag-by-rougel-f1",
+
+"batch_size": 8, 
+"shuffle": true,
+"learning_rate":1e-5,
+"epoch": 15,
+
+"train_path":"./data/train/banmal_train_8263.csv", 
+"dev_path":"./data/val/banmal_val_2066.csv",
+"test_path":"./data/val/banmal_val_2066.csv", 
+"predict_path":"./data/val/banmal_val_2066.csv"}
