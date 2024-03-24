@@ -1,0 +1,89 @@
+.retrospective-container {
+    width: 80%;
+    max-width: 800px;
+    padding: 10px;
+    margin: 0 auto;
+    height: 100%;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+}
+
+.retrospective-window {
+    width: 100%;
+    overflow-y: auto;
+    flex-grow: 1;
+    padding: 20px;
+    margin-bottom: 1rem;
+    border-radius: 8px;
+    background-color: white;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+}
+
+/* Optional: Customize the scrollbar */
+.retrospective-window::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+}
+
+.retrospective-window::-webkit-scrollbar-thumb {
+    background: #ececec;
+    border-radius: 10px;
+}
+
+.retrospective-window::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.retrospective {
+    border-radius: 15px;
+    overflow: hidden;
+    margin: 10px auto 20px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    transition: background-color 0.3s; /* Smooth transition for background color */
+}
+
+.retrospective-content {
+    display: flex;
+    flex-direction: column;
+    padding: 20px 20px 10px;
+    background-color: white; /* Background color is now set here for transition */
+}
+
+.retrospective:hover .retrospective-content{
+    background-color: #007bff; /* Entire box changes color on hover */
+}
+
+.retrospective-link {
+    margin-bottom: 10px;
+    text-decoration: none;
+    color: black; /* Default color for links */
+    transition: color 0.3s; /* Smooth transition for text color */
+}
+
+.retrospective:hover .retrospective-link {
+    color: white; /* Changes text color to white on hover for visibility */
+}
+
+.retrospective-title {
+    font-size: 1.5rem;
+    word-wrap: break-word;
+}
+
+.retrospective-text {
+    padding-top: 10px;
+    font-size: 1.2rem;
+    word-wrap: break-word;
+}
+
+.retrospective-divider {
+    border: none;
+    border-top: 1px solid #ccc;
+    margin: 10px auto;
+}
+
+.retrospective-created {
+    font-size: 1rem;
+    text-align: right; /* Aligns text to the right */
+    display: block; /* Ensures it's treated as a block-level element */
+}

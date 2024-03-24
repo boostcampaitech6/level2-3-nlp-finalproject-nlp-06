@@ -1,0 +1,18 @@
+{% load static %}
+
+<div class="notice" data-id="{{ notice.id }}">
+    <div class="notice-content">
+        <div class="notice-link">
+            <div class="notice-title">{{ notice.title }}</div>
+            <div class="notice-text">{{ notice.text }}</div>
+            <hr class="notice-divider">
+            <div class="notice-created">Created: {{ notice.created|date:"Y/m/d H:i" }}</div>
+        </div>
+        <!-- Delete link as a separate entity -->
+        <div class="delete-notice">
+            <div>
+                <i class="zmdi zmdi-delete" style="padding-right: 2px;"></i> Delete
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,11 @@
+{% load static %}
+
+<div class="retrospective">
+    <div class="retrospective-content">
+        <div class="retrospective-link">
+            <div class="retrospective-title">{{ retrospective.date|date:"Y/m/d" }}</div>
+            <hr>
+            <div class="retrospective-text">{{ retrospective.text }}</div>
+        </div>
+    </div>
+</div>

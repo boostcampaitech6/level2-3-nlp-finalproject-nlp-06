@@ -1,0 +1,291 @@
+/* Adjusted to ensure the container is closer to the navbar and doesn't go under it */
+.login-container {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start; /* Aligns container to the top */
+    padding-top: 70px; /* Space from the navbar, adjust as needed */
+    min-height: calc(100vh - 60px); /* Adjusts the height considering the navbar */
+}
+
+.login-window {
+    width: 100%;
+    max-width: 400px;
+    padding: 20px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    background-color: #fff;
+    border-radius: 8px;
+}
+
+
+/* Form Styles */
+.card {
+    margin: 0 auto;
+    padding: 20px;
+    background: #f9f9f9;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.card h2 {
+    color: #333;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.card p {
+    margin-bottom: 10px;
+    width: 100%;
+}
+
+.card input[type="text"],
+.card input[type="password"],
+.card input[type="email"] {
+    width: 100%;
+    padding: 10px;
+    margin: 5px 0 20px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+.card input[type="submit"] {
+    width: 100%;
+    background-color: #007bff;
+    color: white;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.card input[type="submit"]:hover {
+    background-color: #0061c9;
+}
+
+.card small {
+    color: red;
+}
+
+
+/* Profile Styles */
+.profile-container {
+    width: 80%;
+    max-width: 600px;
+    margin: 20px auto;
+    padding-top: 50px; /* Closer to navbar */
+}
+
+.profile-window {
+    width: 100%;
+    padding: 20px;
+    border-radius: 8px;
+    background-color: white;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.profile-window form {
+    width: 100%;
+}
+
+.profile-image-section {
+    text-align: left;
+    margin-bottom: 20px;
+}
+
+.profile-image img {
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 50%;
+    display: block;
+    margin: 10px auto;
+}
+
+.profile-info {
+    width: 100%;
+}
+
+.profile-field {
+    margin-bottom: 20px;
+}
+
+.profile-field label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.profile-info input[type="text"],
+.profile-info input[type="file"],
+.readonly-field {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: #f9f9f9;
+    font-size: 1rem; /* Ensure font size is consistent */
+    box-sizing: border-box; /* Include padding and border in the height */
+}
+
+.readonly-field {
+    background-color: #fff;
+    display: block;
+}
+
+.profile-update button {
+    width: 100%;
+    background-color: #007bff;
+    color: white;
+    padding: 14px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-top: 20px;
+}
+
+.profile-update button:hover {
+    background-color: #0061c9;
+}
+
+.addition-link {
+    margin: 1rem 0 0;
+    text-align: center;
+    font-size: 0.8rem;
+}
+
+.addition-link a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+.addition-link div {
+    color: #ff0000;
+    cursor: pointer;
+}
+
+.addition-link div:hover {
+    color: #d40000;
+}
+
+
+
+
+
+
+.notice-container {
+    width: 80%;
+    max-width: 800px;
+    padding: 10px;
+    margin: 0 auto;
+    height: 100%;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+}
+
+.notice-window {
+    width: 100%;
+    overflow-y: auto;
+    flex-grow: 1;
+    padding: 20px;
+    margin-bottom: 1rem;
+    border-radius: 8px;
+    background-color: white;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+}
+
+/* Optional: Customize the scrollbar */
+.notice-window::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+}
+
+.notice-window::-webkit-scrollbar-thumb {
+    background: #ececec;
+    border-radius: 10px;
+}
+
+.notice-window::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.notice {
+    border-radius: 15px;
+    overflow: hidden;
+    margin: 10px auto 20px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    transition: background-color 0.3s; /* Smooth transition for background color */
+}
+
+.notice-content {
+    display: flex;
+    flex-direction: column;
+    padding: 20px 20px 10px;
+    background-color: white; /* Background color is now set here for transition */
+}
+
+.notice:hover .notice-content{
+    background-color: #007bff; /* Entire box changes color on hover */
+}
+
+.notice-link {
+    margin-bottom: 10px;
+    text-decoration: none;
+    color: black; /* Default color for links */
+    transition: color 0.3s; /* Smooth transition for text color */
+}
+
+.notice:hover .notice-link {
+    color: white; /* Changes text color to white on hover for visibility */
+}
+
+.notice-title {
+    font-size: 1.5rem;
+    word-wrap: break-word;
+}
+
+.notice-text {
+    padding-top: 10px;
+    font-size: 1.2rem;
+    word-wrap: break-word;
+}
+
+.notice-divider {
+    border: none;
+    border-top: 1px solid #ccc;
+    margin: 10px auto;
+}
+
+.notice-created {
+    font-size: 1rem;
+    text-align: right; /* Aligns text to the right */
+    display: block; /* Ensures it's treated as a block-level element */
+}
+
+.delete-notice {
+    display: flex;
+    justify-content: flex-end; /* Aligns the button to the right */
+    transition: color 0.3s; /* Smooth transition for text color */
+}
+
+.delete-notice div {
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    text-decoration: none;
+    font-size: 1rem;
+    color: black; /* Default color for links */
+    transition: color 0.3s; /* Smooth transition for text color */
+    padding: 0;
+}
+
+.delete-notice div:hover {
+    color: red; /* Changes link color to red on hover */
+}
+
+
+

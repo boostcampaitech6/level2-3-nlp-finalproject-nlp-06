@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}
+Retrospectives
+{% endblock title %}
+
+{% block stylesheets %}
+<link rel="stylesheet" href="{% static "retrospectives/css/styles.css" %}">
+{% endblock stylesheets %}
+
+{% block content %}
+
+<div class="retrospective-container">
+    <div class="retrospective-window">
+
+        {% for retrospective in retrospectives %}
+            {% include "retrospectives/includes/retrospective.html" %}
+        {% endfor %}
+
+    </div>
+</div>
+
+
+{% endblock content %}
+
+
+{% block scripts %}
+<script src="{% static "retrospectives/js/app.js" %}"></script>
+{% endblock scripts %}

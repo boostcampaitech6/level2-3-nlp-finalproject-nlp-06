@@ -1,0 +1,25 @@
+{% load static %}
+
+<div class="message">
+    <div class="message-profile">
+        <img src="{{ profile.image_url }}" alt="">
+    </div>
+    <div class="message-content">
+        <div class="message-profile-name">{{ profile.name }}</div>
+        <div class="message-text">{{ turn.user_input }}</div>
+    </div>
+</div>
+
+
+<div class="message">
+    <div class="message-profile">
+        <img src="{{ bot_profile.image_url }}" alt="">
+    </div>
+    <div class="message-content">
+        <div class="message-profile-name">{{ bot_profile.name }}</div>
+        <div class="message-text">{{ turn.bot_response }}</div>
+        <div class="message-persona"></div>
+    </div>
+</div>
+
+

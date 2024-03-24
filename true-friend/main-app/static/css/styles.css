@@ -1,0 +1,130 @@
+@import url('https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Open+Sans:wght@400;700&display=swap');
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  font-family: 'Open Sans', 'Lato', sans-serif;
+  height: 100%;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+    height: 100%;
+}
+
+h1,
+h2,
+h3 {
+  font-family: 'Lato', sans-serif;
+  font-weight: bold;
+}
+
+/* Navbar Styles */
+#navigation {
+    width: 100%;
+    height: 60px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background-color: #e7f5ff;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+    z-index: 1000;
+}
+
+#navigation .navigation-content {
+    margin: 0 auto;
+    width: 100%;
+    max-width: 800px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 100%;
+    padding: 0 10px;
+}
+
+#navigation .logo {
+    font-size: 24px;
+    margin: 0;
+    flex-grow: 1;
+}
+
+#navigation .logo a {
+    text-decoration: none;
+    color: black;
+    transition: color 0.3s;
+}
+
+#navigation nav {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+}
+
+#navigation a {
+    text-decoration: none;
+    color: black;
+    font-weight: bold;
+    transition: color 0.3s;
+}
+
+#navigation button {
+    padding: 8px 15px;
+    border: none;
+    background: #007bff;
+    color: white;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+#navigation button:hover {
+    background-color: white;
+}
+
+#navigation a:hover,
+#navigation button:hover {
+    color: #007bff;
+}
+
+/* Ensure main content is always below the navbar */
+.main-content {
+    padding-top: 80px; /* Same as the navbar height plus some space */
+    padding-bottom: 20px;
+    height: 100%;
+}
+
+/* Sticky Alert message styles */
+.alert {
+    width: 500px; /* Fixed width */
+    padding: 10px;
+    border: 1px solid transparent;
+    border-radius: 8px; /* Added roundness */
+    position: fixed; /* Make the alert stick to the viewport */
+    top: 62px; /* Height of the navbar */
+    left: 50%; /* Center the alert horizontally */
+    transform: translateX(-50%); /* Adjust for the fixed width to center properly */
+    font-size: 14px;
+    line-height: 1.4;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* Optional: added a light box-shadow for depth */
+    z-index: 999; /* Ensure it's below the navbar if using a higher z-index there */
+}
+
+.alert-success { color: #3c763d; background-color: #dff0d8; border-color: #d6e9c6; }
+.alert-info { color: #31708f; background-color: #d9edf7; border-color: #bce8f1; }
+.alert-error { color: #a94442; background-color: #f2dede; border-color: #ebccd1; }
+
+.alert .close {
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding: 0.75rem 1.25rem;
+    color: inherit;
+    cursor: pointer;
+    border: none;
+    background: none;
+}
