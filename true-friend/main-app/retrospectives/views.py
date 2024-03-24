@@ -22,6 +22,11 @@ class RetrospectiveView(LoginRequiredMixin, View):
         except httpx.HTTPStatusError as e:
             print(f"HTTP error occurred: {e}")
             response = []
+        except Exception as e:
+            print(f"An error occurred: {e}")
+            response = []
+        else:
+            response = response.json()
 
         # convert string datetime to real datetime object
         for element in response:
