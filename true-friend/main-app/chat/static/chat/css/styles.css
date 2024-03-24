@@ -1,0 +1,262 @@
+.chat-container {
+    width: 80%;
+    max-width: 800px;
+    padding: 10px;
+    margin: 0 auto;
+    height: 100%;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+}
+
+.chat-window {
+    width: 100%;
+    overflow-y: auto;
+    flex-grow: 1;
+    padding: 20px;
+    margin-bottom: 1rem;
+    border-radius: 8px;
+    background-color: white;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+}
+
+/* Optional: Customize the scrollbar */
+.chat-window::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+}
+
+.chat-window::-webkit-scrollbar-thumb {
+    background: #ececec;
+    border-radius: 10px;
+}
+
+.chat-window::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.input-area {
+    background-color: white;
+    padding: 5px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    display: flex;
+    width: 100%;
+    height: auto;
+    margin: auto;
+}
+
+.chat-form {
+    display: flex;
+    width: 100%;
+    height: auto;
+    align-items: center;
+}
+
+.user-input {
+    font-family: inherit;
+    flex-grow: 1;
+    line-height: 1.5;
+    border: none;
+    outline: none;
+    padding: 5px 10px; /* Adjusted for exact height calculation */
+    resize: none;
+    font-size: 1.2rem;
+    overflow-y: hidden; /* Initially hide scrollbar */
+    margin-right: 5px;
+}
+
+.send-button {
+    width: 40px;
+    height: 40px;
+    background-color: #007bff;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Optional: Customize the scrollbar */
+.user-input::-webkit-scrollbar {
+    width: 10px;
+}
+
+.user-input::-webkit-scrollbar-thumb {
+    background: #ececec;
+    border-radius: 10px;
+}
+
+.user-input::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+
+.message {
+    display: flex;
+    align-items: flex-start; /* Aligns children (image and content) to the top */
+    padding: 10px; /* Adjust as needed */
+    font-size: 1.2rem;
+    width: 100%;
+}
+
+.message-profile {
+    flex: 0 0 40px; /* Fixes the width to 20px and prevents it from growing or shrinking */
+    margin-right: 20px; /* Adds some space between the profile image and the message content */
+}
+
+.message-profile img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%; /* Creates a round shape */
+    object-fit: cover; /* Ensures the image covers the area without distorting aspect ratio */
+}
+
+.message-content {
+    max-width: 90%; /* Adjust as needed */
+    flex-direction: column;
+    flex-grow: 1;
+    word-wrap: break-word; /* Allow long words to break and wrap to the next line */
+    overflow-wrap: break-word; /* Ensures proper wrapping in all browsers */
+    
+}
+
+.message-profile-name {
+    font-weight: bold; /* Emphasizes the sender's name */
+    margin-bottom: 5px; /* Adds some space between the name and the message text */
+}
+
+.message-text {
+    margin: 0; /* Removes the default paragraph margin */
+    white-space: pre-wrap; /* Preserves line breaks and spaces */
+}
+
+.button-area {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.button-area button {
+    margin: 0 5px;
+    width: 100%;
+    cursor: pointer;
+    background: transparent;
+}
+
+.button-area button:hover {
+    background-color: aliceblue;
+}
+
+.session {
+    border-radius: 15px;
+    overflow: hidden;
+    margin: 10px auto 20px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    transition: background-color 0.3s; /* Smooth transition for background color */
+}
+
+.session-content {
+    display: flex;
+    flex-direction: column;
+    padding: 20px 20px 10px;
+    background-color: white; /* Background color is now set here for transition */
+}
+
+.session:hover .session-content{
+    background-color: #007bff; /* Entire box changes color on hover */
+}
+
+.session-link {
+    margin-bottom: 10px;
+}
+
+.session-link {
+    text-decoration: none;
+    color: black; /* Default color for links */
+    transition: color 0.3s; /* Smooth transition for text color */
+}
+
+.session:hover .session-link {
+    color: white; /* Changes text color to white on hover for visibility */
+}
+
+.session-title {
+    font-size: 1.5rem;
+    word-wrap: break-word;
+}
+
+.session-divider {
+    border: none;
+    border-top: 1px solid #ccc;
+    margin: 10px auto;
+}
+
+.session-last-update {
+    font-size: 1rem;
+    text-align: right; /* Aligns text to the right */
+    display: block; /* Ensures it's treated as a block-level element */
+}
+
+.delete-session {
+    display: flex;
+    justify-content: flex-end; /* Aligns the button to the right */
+    transition: color 0.3s; /* Smooth transition for text color */
+}
+
+.delete-session button {
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    text-decoration: none;
+    font-size: 1rem;
+    color: black; /* Default color for links */
+    transition: color 0.3s; /* Smooth transition for text color */
+    padding: 0;
+}
+
+.delete-session button:hover {
+    color: red; /* Changes link color to red on hover */
+}
+
+.create-session {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 10px auto 0;
+    font-size: 1rem;
+}
+
+.create-session button {
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    text-decoration: none;
+    font-size: 1rem;
+    color: #007bff; /* Default color for links */
+    transition: color 0.3s; /* Smooth transition for text color */
+}
+
+.spinner {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px 0;
+}
+
+.spinner i{
+    animation: spin 1s ease infinite;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}

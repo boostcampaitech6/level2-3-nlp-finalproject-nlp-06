@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}
+Delete Account
+{% endblock title %}
+
+{% block stylesheets %}
+<link rel="stylesheet" href="{% static "users/css/styles.css" %}">
+{% endblock stylesheets %}
+
+{% block content %}
+
+<div class="profile-container">
+    <div class="profile-window">
+
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+
+            <h2>Are you sure you want to delete?</h2>
+            <p>Deleting your account will remove all your data from the system. This action cannot be undone.</p>
+
+            <div class="profile-update">
+                <button type="submit">Delete</button>
+            </div>
+        </form>
+
+        <div class="addition-link">
+            <a href="{% url "user-profile" %}">Cancel</a>
+        </div>
+    </div>
+</div>
+
+
+{% endblock content %}
