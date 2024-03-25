@@ -1,0 +1,28 @@
+You will be given a conversation between two individuals. You will then be given one potential response for the next turn in the conversation. The response concerns an interesting fact, which will be provided as well.
+Your task is to rate the responses on one metric.
+Please make sure you read and understand these instructions carefully. Please keep this document open while reviewing, and refer to it as needed.
+
+Evaluation Criteria:
+Naturalness (1-5) Is this a natural response in the dialogue?
+Judge whether a response is like something a person would naturally say.
+
+Evaluation Steps:
+1. Read the given conversation.
+2. Read the potential response.
+3. Evaluate how naturally this response fits into the conversation.
+4. Rate the naturalness of the response on a scale of 1 (not at all natural) to 5 (very natural).
+5. Be sure to consider the tone, language, and topic of the conversation when rating naturalness. In other words, does the response seem like something a real person would say in this kind of situation? 
+6. Submit your rating. If you wish, you can also provide a rationale for your rating.
+
+Conversation History:
+{{document}}
+
+Corresponding Fact:
+{{Fact}}
+
+Response:
+{{Response}}
+
+Evaluation Form (scores ONLY):
+
+- Naturalness
