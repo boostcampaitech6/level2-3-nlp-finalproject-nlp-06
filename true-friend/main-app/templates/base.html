@@ -4,16 +4,32 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- <meta name="viewport" content="width=device-width, initial-scale=1.0"> -->
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/material-design-iconic-font/2.2.0/css/material-design-iconic-font.min.css">
     <link rel="stylesheet" href="{% static "css/styles.css" %}">
+    <link rel="stylesheet" href="{% static "css/alarm_styles.css" %}">
     <title>{% block title %}{% endblock title %}</title>
+    <script src="https://cdn.tailwindcss.com"></script>
     {% block stylesheets %}
     {% endblock stylesheets %}
 </head>
 <body>
     {% include "navbar.html" %}
 
+    <!-- Modal -->
+    <div id="notificationModal" class="modal">
+        <div class="modal-content">
+            <div class="flex flex-col space-y-4">
+                <div class="text-lg font-semibold">알림</div>
+                <!-- 이동할 때, querystring으로 post id도 같이 전달 -->
+                <div class="alarm-container flex-col space-y-4"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- messages -->
     {% if messages %}
         {% for message in messages %}
         <div class="alert alert-{{ message.tags }} alert-dismissible" role="alert">
@@ -31,6 +47,10 @@
     <script>const hostname="{{ hostname }}";</script>
     <script src="{% static "js/app.js" %}"></script>
     <script src="https://code.jquery.com/jquery-3.7.1.slim.min.js" integrity="sha256-kmHvs0B+OpCW5GVHUNjv9rOmY0IvSIRcf7zGUDTDQM8=" crossorigin="anonymous"></script>
+    <script>
+        insertJSONIntoALARM(retrospect_data)
+    </script>
+    
     {% block scripts %}
     {% endblock scripts %}
 </body>

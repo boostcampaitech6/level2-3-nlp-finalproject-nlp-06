@@ -3,9 +3,19 @@
 <header id="navigation">
     <div class="navigation-content">
         <h1 class="logo"><a href="{% url "login" %}">True Friend</a></h1>
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex">
+                    <!-- Notification button -->
+                    <div id="notificationButton" class="text-gray-600 hover:text-gray-800 focus:outline-none">
+                        <a href="#">Notice</a>
+                    </div>
+                </div>
+            </div>
+        </div>
         <nav>
             {% if request.user.is_authenticated %}
-            <a href="{% url "notice" %}">Notice</a>
+            <a href="{% url "login" %}">Chat</a>
             <a href="{% url "retrospectives" %}">Retrospective</a>
             <a href="{% url "user-profile" %}">My Page</a>
             <form action="{% url "logout" %}" method="POST">
