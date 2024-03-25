@@ -31,7 +31,7 @@ h3 {
     position: fixed;
     top: 0;
     left: 0;
-    background-color: #e7f5ff;
+    background-color: rgba(231, 245, 255, 0.5);
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
     z-index: 1000;
 }
@@ -96,6 +96,10 @@ h3 {
     padding-top: 80px; /* Same as the navbar height plus some space */
     padding-bottom: 20px;
     height: 100%;
+    background-image: url("https://source.unsplash.com/1200x900/?bright,wallpaper,rainbow");
+    background-repeat: no-repeat; /* 배경 이미지 반복 없음 */
+    background-attachment: fixed;  /* 이미지가 스크롤되지 않고 고정됨  */
+    background-size: cover; /* 이미지가 화면에 가득 차도록 크기 조절   */
 }
 
 /* Sticky Alert message styles */
