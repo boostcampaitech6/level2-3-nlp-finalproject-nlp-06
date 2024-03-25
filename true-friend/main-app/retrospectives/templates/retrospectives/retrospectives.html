@@ -34,20 +34,21 @@ Retrospectives
         <span class="close">&times;</span>
         <div class="max-w-2xl mx-auto bg-white shadow-lg rounded-lg p-6">
             <div class="mb-4">
-                <label for="date" class="block text-gray-700 text-sm font-bold mb-2">Date</label>
-                <div class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="date" aria-readonly="true">2023-04-01</div>
+                <label for="date" class="block text-gray-700 text-sm font-bold mb-2"></label>
+                <div class="date-container appearance-none rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="date" aria-readonly="true">2023-04-01</div>
             </div>
+            
+            <!-- 구분선 추가 -->
+            <hr class="separator">
             <div class="mb-4">
-                <label for="content" class="block text-gray-700 text-sm font-bold mb-2">Content</label>
-                <div class="scrollable-content shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline" id="content" aria-readonly="true">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                <label for="content" class="block text-gray-700 text-sm font-bold mb-2"></label>
+                <div class="scrollable-content appearance-none rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline min-height-8lines" id="content" aria-readonly="true" style="max-height: 15em; min-height: 8em; overflow-y: auto;">
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
                 </div>
             </div>
     
-            <!-- 구분선 추가 -->
-            <hr class="separator">
             <div class="note-box p-4 rounded">
-                <label for="note" class="note-label">루나의 한마디:</label>
+                <label for="note" class="note-label">지우의 한마디:</label>
                 <div class="note-label-content s" id="note" aria-readonly="true">
                     This is a special note with bold text.
                 </div>
@@ -55,6 +56,7 @@ Retrospectives
         </div>
     </div>
 </div>
+
 
 {% endblock content %}
 

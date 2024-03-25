@@ -55,3 +55,11 @@
     margin-top: 1rem; /* 구분선 위 여백 추가 */
     margin-bottom: 1rem; /* 구분선 아래 여백 추가 */
 }
+
+
+/* 상세회고 날짜 서식 */
+.date-container {
+    font-size: 1.2em; /* 글자 크기 조절 */
+    font-weight: bold; /* 글자 굵기 조절 */
+    font-style: italic; /* 기울임체 설정 */
+}

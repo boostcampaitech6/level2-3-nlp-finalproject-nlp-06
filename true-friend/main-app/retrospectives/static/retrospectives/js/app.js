@@ -12,9 +12,9 @@ retrospect_data = {
     data_20240323 : {
         'retrospectId':'d20240323',
         'userName': 'jaehyun',
-        'text':'2024.03.23에 생성된 회고입니다.',
+        'text':'수정아! 너는 오늘 집에서 아무것도 안 했구나. 그런데 너는 평소에 너무 아무것도 안 하는 것 같아서 고민이라고 하지 않았니? 수정는 새로운 걸 시도해 보려는 의욕도 나지 않는다고 했었지. 저녁시간인데 뭘 먹을지 고민하다가 볶음밥을 만들어 먹기로 했구나. 혼자 먹을 거라 유튜브나 보면서 시간을 때워야겠다고 했었지. 유튜브는 한 번 보면 너무 오래 동안 보게 되는 것 같다고 했었지. 그리고 친했던 친구가 해외로 유학을 가게 되었다면서 슬퍼하고 있었지.',
         'created_at':'2024/03/23',
-        'luna':'Hello, World!',
+        'luna':' 수정이도 오늘은 기분이 좋은 일도, 나쁜 일도 있었네. 수정가 항상 행복했으면 좋겠다!',
         'checked':false,
     },
 
@@ -124,3 +124,18 @@ window.onload = function() {
         }
     }
 };
+
+
+
+// 상세 회고 날짜포맷 변경 (after:yyyy.mm.dd)
+document.addEventListener('DOMContentLoaded', function() {
+    var dateElement = document.getElementById('date');
+    var dateString = dateElement.innerText;
+    var formattedDate = formatDate(dateString); // formatDate 함수는 날짜 형식을 변경하는 함수입니다.
+    dateElement.innerText = formattedDate;
+});
+
+function formatDate(dateString) {
+    var dateParts = dateString.split('-');
+    return dateParts[0] + '.' + dateParts[1] + '.' + dateParts[2];
+}
