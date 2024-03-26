@@ -22,7 +22,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
                 const formattedDate = date.replace(/-/g, '/').substring(0, 10) + ' ' + date.substring(11, 16);
                 const noticeItem = document.createElement('div');
                 noticeItem.classList.add('notice');
-                noticeItem.dataset.id = notice.id;
+                noticeItem.dataset.id = notice.retrospective_id;
                 
                 noticeItem.innerHTML = `
                 <div class="notice-title">${formattedDate}</div>
@@ -34,7 +34,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
                 } else {
                     noticeItem.addEventListener('click', function(event) {
                         event.preventDefault();
-                        console.log(`Notice ID: ${notice.id} has been clicked!`);
+                        // console.log(`Notice ID: ${notice.id} has been clicked!`);
                         fetch(`http://${hostname}/api/notices/${notice.id}/`, {
                             method: 'PATCH',
                             headers: {
@@ -59,6 +59,13 @@ document.addEventListener('DOMContentLoaded', (event) => {
                             .catch(error => console.error('There has been a problem with your fetch operation:', error));
                     });
                 }
+                
+                noticeItem.addEventListener('click', function(event) {
+                    event.preventDefault();
+                    const queryParams = `?id=${notice.retrospective_id}`;
+                    window.location.href = `http://${hostname}/retrospectives${queryParams}`;
+                });
+
                 noticeContainer.appendChild(noticeItem);
             });
         });

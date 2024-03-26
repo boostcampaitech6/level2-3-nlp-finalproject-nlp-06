@@ -4,6 +4,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
     const retrospectiveModalDate = retrospectiveModal.querySelector("#retrospective-modal-date");
     const retrospectiveModalText = retrospectiveModal.querySelector("#retrospective-modal-text");
     const retrospectiveModalComment = retrospectiveModal.querySelector("#retrospective-modal-comment");
+    const modalClose = retrospectiveModal.querySelector(".modal-close");
 
     let retrospectives = document.querySelectorAll('.retrospective');
     retrospectives.forEach(retrospective => {
@@ -17,6 +18,15 @@ document.addEventListener('DOMContentLoaded', (event) => {
     }); 
 
     window.addEventListener('click', function(event) {
+        if (event.target === retrospectiveModal) {
+            retrospectiveModal.classList.remove('active');
+            retrospectiveModalDate.innerHTML = "";
+            retrospectiveModalText.innerHTML = "";
+            retrospectiveModalComment.innerHTML = "";
+        }
+    });
+
+    modalClose.addEventListener('click', function(event) {
         if (event.target === retrospectiveModal) {
             retrospectiveModal.classList.remove('active');
             retrospectiveModalDate.innerHTML = "";

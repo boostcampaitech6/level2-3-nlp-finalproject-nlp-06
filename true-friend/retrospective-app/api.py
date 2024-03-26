@@ -6,7 +6,7 @@ from langchain.chains import LLMChain
 
 from loguru import logger
 import numpy as np
-from typing import Optional, List
+from typing import Optional, List, Tuple
 
 from database import Retrospective, get_db_session
 from model import get_tf_model, get_llm_chains, make_summary, async_func
@@ -40,7 +40,7 @@ async def generate_tf_model(request: ModelGenerationRequest,
 
 @router.post("/generate/chains")
 async def generate_chain(request: ModelGenerationRequest,
-                         llm_chains: tuple[LLMChain, LLMChain] = Depends(get_llm_chains)) -> ModelGenerationResponse:
+                         llm_chains: Tuple[LLMChain, LLMChain] = Depends(get_llm_chains)) -> ModelGenerationResponse:
     llm_retrospective_chain, llm_comment_chain = llm_chains
     
     retrospective_context = {
@@ -71,6 +71,7 @@ async def get_predict_by_username(username: str,
     retrospectives = result.scalars().all()
     return [
         RetrospectiveResponse(
+            id=retrospective.id,
             text=retrospective.text, 
             comment=retrospective.comment,
             date=retrospective.created_at
@@ -82,7 +83,7 @@ async def get_predict_by_username(username: str,
 @router.post("/predict")
 async def predict(request: RetrospectiveRequest,
                   tf_model: tuple = Depends(get_tf_model),
-                  llm_chains: tuple[LLMChain, LLMChain] = Depends(get_llm_chains),
+                  llm_chains: Tuple[LLMChain, LLMChain] = Depends(get_llm_chains),
                   db: AsyncSession = Depends(get_db_session)) -> RetrospectiveResponse:
     device, tokenizer, model = tf_model
     llm_retrospective_chain, llm_comment_chain = llm_chains
@@ -134,14 +135,19 @@ async def predict(request: RetrospectiveRequest,
     await db.commit()
     await db.refresh(retrospective)
 
-    return RetrospectiveResponse(text=retrospective_result, comment=comment_result, date=retrospective.created_at)
+    return RetrospectiveResponse(
+        id=retrospective.id, 
+        text=retrospective_result, 
+        comment=comment_result, 
+        date=retrospective.created_at
+    )
 
 
 
 @router.websocket("/ws")
 async def websocket_endpoint(websocket: WebSocket,
                              tf_model: tuple = Depends(get_tf_model),
-                             llm_chains: tuple[LLMChain, LLMChain] = Depends(get_llm_chains),
+                             llm_chains: Tuple[LLMChain, LLMChain] = Depends(get_llm_chains),
                              db: AsyncSession = Depends(get_db_session)):
     device, tokenizer, model = tf_model
     llm_retrospective_chain, llm_comment_chain = llm_chains
@@ -164,6 +170,7 @@ async def websocket_endpoint(websocket: WebSocket,
                     "message": "success",
                     "body": [
                         {
+                            "id": str(retrospective.id), #  if reference result from retrospective.id, must str(retrospective.id
                             "text": retrospective.text, 
                             "comment": retrospective.comment,
                             "date": retrospective.created_at.isoformat()
@@ -222,10 +229,12 @@ async def websocket_endpoint(websocket: WebSocket,
 
                 db.add(retrospective)
                 await db.commit()
+                await db.refresh(retrospective)
 
                 response = {
                     "message": "success",
                     "body": {
+                        "id": str(retrospective.id),
                         # "text": result #  if reference result from retrospective.text, must await db.refresh(retrospective)
                     }
                 } 
