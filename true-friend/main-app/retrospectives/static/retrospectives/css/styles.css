@@ -68,6 +68,7 @@
 .retrospective-title {
     font-size: 1.5rem;
     word-wrap: break-word;
+    text-align: center;
 }
 
 .retrospective-text {
@@ -86,4 +87,68 @@
     font-size: 1rem;
     text-align: right; /* Aligns text to the right */
     display: block; /* Ensures it's treated as a block-level element */
+}
+
+#retrospective-modal-content {
+    max-width: 700px;
+    height: auto;
+}
+
+.modal-close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+.modal-close:hover,
+.modal-close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.modal-box {
+    margin-bottom: 1rem;
+}
+
+.modal-box label {
+    font-weight: bold;
+    font-size: 1.2rem;
+}
+
+#retrospective-modal-text {
+    overflow-y: auto;
+    height: 200px;
+}
+
+#retrospective-modal-text::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+}
+
+#retrospective-modal-text::-webkit-scrollbar-thumb {
+    background: #ececec;
+    border-radius: 10px;
+}
+
+#retrospective-modal-text::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.modal-textarea {
+    font-size: 1.2rem;
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+    padding: 5px;
+} 
+
+#retrospective-modal-comment {
+    background-color: rgba(231, 245, 255, 0.5);
+    height: auto;
+}
+
+.modal-separator {
+    margin: 0.5rem 0;
+    height: 2px;
 }

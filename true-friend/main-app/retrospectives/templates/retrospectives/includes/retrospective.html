@@ -1,13 +1,9 @@
 {% load static %}
 
-<div class="retrospective">
+<div class="retrospective" data-date="{{ retrospective.date }}" data-text="{{ retrospective.text }}" data-comment="{{ retrospective.comment}}">
     <div class="retrospective-content">
         <div class="retrospective-link">
-            <div class="retrospective-title">{{ retrospective.date|date:"Y/m/d" }}</div>
-            <hr>
-            <div class="retrospective-text">{{ retrospective.text }}</div>
-            <hr>
-            <div class="retrospective-comment">{{retrospective.comment}}</div>
+            <div class="retrospective-title">{{ retrospective.date|date:"Y/m/d" }} - 회고</div>
         </div>
     </div>
 </div>

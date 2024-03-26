@@ -10,9 +10,12 @@
     <title>{% block title %}{% endblock title %}</title>
     {% block stylesheets %}
     {% endblock stylesheets %}
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body>
     {% include "navbar.html" %}
+
+    {% include "notice-modal.html" %}
 
     {% if messages %}
         {% for message in messages %}
@@ -28,6 +31,7 @@
     
         {% endblock content %}
     </div>
+    <script>const username="{{ request.user.username }}";</script>
     <script>const hostname="{{ hostname }}";</script>
     <script src="{% static "js/app.js" %}"></script>
     <script src="https://code.jquery.com/jquery-3.7.1.slim.min.js" integrity="sha256-kmHvs0B+OpCW5GVHUNjv9rOmY0IvSIRcf7zGUDTDQM8=" crossorigin="anonymous"></script>
