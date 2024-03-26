@@ -26,6 +26,101 @@ services:
     image: "turefriend/django-main-app:latest"
     container_name: "django-main-app"
 
+  generation_app:
+    build: ./generation-app
+    ports:
+      - "8001:8001"
+    depends_on:
+      - redis_db
+      - persona_app
+      - retrospective_app
+    volumes:
+      - model_data:/app/models
+    environment:
+      OPENAI_API_KEY: "${OPENAI_API_KEY}"
+      LLM_MODEL_PATH: "${GENERATION_LLM_MODEL_PATH}"
+      REDIS_HOST: "redis_db"
+      PERSONA_APP_NAME: "persona_app"
+      PERSONA_APP_PORT: "8002"
+      RETROSPECTIVE_APP_NAME: "retrospective_app"
+      RETROSPECTIVE_APP_PORT: "8003"
+      RETROSPECTIVE_SCHEDULER_HOUR: "${RETROSPECTIVE_SCHEDULER_HOUR}"
+      RETROSPECTIVE_SCHEDULER_MINUTE: "${RETROSPECTIVE_SCHEDULER_MINUTE}"
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+    image: "turefriend/fastapi-generation-app:latest"
+    container_name: "fastapi-generation-app"
+  
+  persona_app:
+    build: ./persona-app
+    ports:
+      - "8002:8002"
+    depends_on:
+      - postgres_db
+    volumes:
+      - model_data:/app/models
+    environment:
+      OPENAI_API_KEY: "${OPENAI_API_KEY}"
+      DB_USERNAME: "${DB_USERNAME}"
+      DB_PASSWORD: "${DB_PASSWORD}"
+      DB_NAME: "${API_DB_NAME}"
+      DB_HOST: "${DB_HOST}"
+      TF_MODEL_ID: "${PERSONA_TF_MODEL_ID}"
+      HF_TOKEN: "${PERSONA_HF_TOKEN}"
+      HF_HOME: "${HF_HOME}"
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+    image: "turefriend/fastapi-persona-app:latest"
+    container_name: "fastapi-persona-app"
+
+  retrospective_app:
+    build: ./retrospective-app
+    ports:
+      - "8003:8003"
+    depends_on:
+      - postgres_db
+    volumes:
+      - model_data:/app/models
+    environment:
+      DB_USERNAME: "${DB_USERNAME}"
+      DB_PASSWORD: "${DB_PASSWORD}"
+      DB_NAME: "${API_DB_NAME}"
+      DB_HOST: "${DB_HOST}"
+      TF_MODEL_ID: "${RETROSPECTIVE_TF_MODEL_ID}"
+      LLM_MODEL_PATH: "${RETROSPECTIVE_LLM_MODEL_PATH}"
+      HF_HOME: "${HF_HOME}"
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+    image: "turefriend/fastapi-retrospecive-api:latest"
+    container_name: "fastapi-retrospective-api"
+
+  redis_db:
+    image: "redis/redis-stack:latest"
+    # command: redis-server --appendonly yes --appendfsync everysec # Enabling AOF persistence
+    environment:
+      REDIS_ARGS: "--appendonly yes --appendfsync everysec"
+    ports:
+      - "6379:6379"
+      - "8005:8001"
+    volumes:
+      - redis_data:/data
+    container_name: "redis-db"
+
   postgres_db:
     image: "pgvector/pgvector:0.6.1-pg16"
     environment:
@@ -56,7 +151,11 @@ services:
     container_name: "nginx-reverse-proxy"
 
 volumes:
+  model_data:
+    external: true
   postgres_data:
+    external: true
+  redis_data:
     external: true
   static_data:
     external: true
