@@ -30,11 +30,7 @@ SECRET_KEY = os.environ.get("SECRET_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["127.0.0.1", "localhost", "host.docker.internal", 
-                 "generation_app", "persona_app", "retrospective_app",
-                 "223.130.139.176", # ncp cloud server
-                 "211.249.71.5" # naver connect building
-                 ]
+ALLOWED_HOSTS = ["*"]
 
 
 # Application definition
@@ -115,15 +111,10 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-# To allow specific hosts
-CORS_ALLOWED_ORIGINS = [
-    "http://generation_app:8001",
-    "http://persona_app:8002",
-    "http://retrospective_app:8003",
-]
-
 # To allow all hosts (use with caution)
-# CORS_ALLOW_ALL_ORIGINS = True
+CORS_ALLOW_ALL_ORIGINS = True
+
+CSRF_TRUSTED_ORIGINS = ['http://localhost', 'http://localhost:8000']
 
 ROOT_URLCONF = 'core.urls'
 
