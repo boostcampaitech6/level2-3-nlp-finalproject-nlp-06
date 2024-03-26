@@ -59,7 +59,7 @@ async def generate(request: GenerationRequest,
         "type": "get_persona",
         "username": request.username,
         "user_input": user_input,
-        "top_k": 5
+        "top_k": 3
     }
 
     await websocket_client.send(persona_data)
@@ -76,29 +76,39 @@ async def generate(request: GenerationRequest,
     # get history
     # should work if no key exists (initial user input)
     history = ""
-    turns = await redis.lrange(key, 0, 10) 
+    turns = await redis.lrange(key, 0, 2) 
     if len(turns) > 0:
         turns = [json.loads(turn.decode("utf-8")) for turn in turns[::-1]]
         for turn in turns:
-            history += f"{request.name}: " + turn.get("user_input") + "\n"
-            history += "지우: " + turn.get("bot_response") + "\n"
-    else:
-        history += f"{request.name}: \n"
-        history += "지우: \n"
+            # history += f"{request.name}: " + turn.get("user_input") + "\n"
+            # history += "지우: " + turn.get("bot_response") + "\n"
+            # history 변경
+            history += f'예원: {turn.get("user_input")}\n지우: {turn.get("bot_response")}\n'
 
+    # else:
+    #     history += f"{request.name}: \n"
+    #     history += "지우: \n"
+    #     history += f'{request.name}: \n지우: {turn.get("bot_response")}\n'
+        
+            
+
+    print(f"History:\n{history}")
     # logger.info(f"History:\n{history}")
 
     context = {
-        "user_name": request.name,
-        "user_age": "20대",
-        "user_sex": "남자",
+        # "user_name": request.name,
+        "user_name": "예원",
+        "user_age": "25",
+        "user_sex": "여자",
         "user_persona": concat_personas,
         "history": history,
         "input": user_input
     }
 
+    print(context)
+
     bot_response = await llm_chain.ainvoke(context)
-    # print(f"\nBot response: {bot_response.get('text')}\n")
+    print(f"\nBot response: {bot_response.get('text')}\n")
 
     redis_data = {
         "user_input": user_input,
