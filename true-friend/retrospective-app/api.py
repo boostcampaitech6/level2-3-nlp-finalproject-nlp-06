@@ -67,7 +67,9 @@ async def generate_chain(request: ModelGenerationRequest,
 async def get_predict_by_username(username: str, 
                                   db: AsyncSession = Depends(get_db_session)) -> List[RetrospectiveResponse]:
     result = await db.execute(select(Retrospective)
-                              .filter(Retrospective.username == username))
+                              .filter(Retrospective.username == username)
+                              .order_by(Retrospective.created_at.desc())
+    )
     retrospectives = result.scalars().all()
     return [
         RetrospectiveResponse(
@@ -163,6 +165,7 @@ async def websocket_endpoint(websocket: WebSocket,
             if data.get("type") == "get_predict":
                 result = await db.execute(select(Retrospective)
                               .filter(Retrospective.username == data.get("username"))
+                              .order_by(Retrospective.created_at.desc())
                 )
                 retrospectives = result.scalars().all()
                 

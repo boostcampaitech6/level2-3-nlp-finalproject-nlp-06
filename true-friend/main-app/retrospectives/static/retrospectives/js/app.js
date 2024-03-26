@@ -35,4 +35,22 @@ document.addEventListener('DOMContentLoaded', (event) => {
         }
     });
 
+    const retrospectiveId = getQueryParam('id');
+    if (retrospectiveId) {
+        const dataId = retrospectiveId.replace(/"/g, '');
+        scrollToElementWithDataId(dataId);
+    }
+
 });
+
+function getQueryParam(param) {
+    const urlParams = new URLSearchParams(window.location.search);
+    return urlParams.get(param);
+}
+
+function scrollToElementWithDataId(dataId) {
+    const element = document.querySelector(`[data-id="${dataId}"]`);
+    if (element) {
+      element.scrollIntoView({behavior: 'smooth', block: 'start'});
+    }
+}
