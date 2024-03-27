@@ -83,21 +83,17 @@ async def generate(request: GenerationRequest,
             # history += f"{request.name}: " + turn.get("user_input") + "\n"
             # history += "지우: " + turn.get("bot_response") + "\n"
             # history 변경
-            history += f'예원: {turn.get("user_input")}\n지우: {turn.get("bot_response")}\n'
+            history += f'{request.name}: {turn.get("user_input")}\n지우: {turn.get("bot_response")}\n'
 
     # else:
     #     history += f"{request.name}: \n"
     #     history += "지우: \n"
     #     history += f'{request.name}: \n지우: {turn.get("bot_response")}\n'
         
-            
-
-    print(f"History:\n{history}")
     # logger.info(f"History:\n{history}")
 
     context = {
-        # "user_name": request.name,
-        "user_name": "예원",
+        "user_name": request.name,
         "user_age": "25",
         "user_sex": "여자",
         "user_persona": concat_personas,
@@ -105,10 +101,7 @@ async def generate(request: GenerationRequest,
         "input": user_input
     }
 
-    print(context)
-
     bot_response = await llm_chain.ainvoke(context)
-    print(f"\nBot response: {bot_response.get('text')}\n")
 
     redis_data = {
         "user_input": user_input,
@@ -132,7 +125,6 @@ async def generate(request: GenerationRequest,
         if response.get("message") != "success":
             return JSONResponse({"message": "error", "body": "Failed to create persona"}, status_code=422)
 
-        # print(f"\nPersona prediction request response: {response}\n")
 
     await websocket_client.close()
     del websocket_client
