@@ -1,6 +1,7 @@
 from sqlmodel import SQLModel, Field
 from typing import Optional, List
 from sqlalchemy.ext.asyncio import create_async_engine, AsyncSession, async_sessionmaker
+from sqlalchemy import Column, DateTime
 
 import datetime
 from uuid import UUID, uuid4
@@ -12,7 +13,7 @@ class Retrospective(SQLModel, table=True):
     username: str
     text: str
     comment: str
-    created_at: datetime.datetime = Field(default_factory=datetime.datetime.now)
+    created_at: datetime.datetime = Field(default_factory=lambda: datetime.datetime.now())
 
 
 engine = create_async_engine(config.db_url, echo=False)

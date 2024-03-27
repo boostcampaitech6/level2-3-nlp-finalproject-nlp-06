@@ -2,10 +2,14 @@
 
 <header id="navigation">
     <div class="navigation-content">
-        <h1 class="logo"><a href="{% url "login" %}">True Friend</a></h1>
+        <h1 class="logo">
+            <a href="{% url "login" %}">
+                <img src="{% static "images/favicon.png" %}">찐친이 되어줘
+            </a>
+        </h1>
         <nav>
             {% if request.user.is_authenticated %}
-            <a href="{% url "notice" %}">Notice</a>
+            <a href="" id="notice-modal-trigger">Notice</a>
             <a href="{% url "retrospectives" %}">Retrospective</a>
             <a href="{% url "user-profile" %}">My Page</a>
             <form action="{% url "logout" %}" method="POST">
