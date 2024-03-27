@@ -3,7 +3,7 @@ from typing import Optional, List
 from sqlalchemy.ext.asyncio import create_async_engine, AsyncSession, async_sessionmaker
 from sqlalchemy import Column, DateTime
 
-from datetime import datetime
+import datetime
 from uuid import UUID, uuid4
 from config import config
 

@@ -5,12 +5,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="{% static 'images/favicon.png' %}" type="image/x-icon">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/material-design-iconic-font/2.2.0/css/material-design-iconic-font.min.css">
     <link rel="stylesheet" href="{% static "css/styles.css" %}">
+
     <title>{% block title %}{% endblock title %}</title>
+    <style>
+        body {
+            background-image: url('{% static "images/background.png" %}');
+            background-size: cover;  /* Cover the entire page */
+            background-position: center;  /* Center the background */
+        }
+    </style>
     {% block stylesheets %}
     {% endblock stylesheets %}
-    <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body>
     {% include "navbar.html" %}
