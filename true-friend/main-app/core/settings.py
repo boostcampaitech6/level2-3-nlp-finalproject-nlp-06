@@ -114,7 +114,9 @@ MIDDLEWARE = [
 # To allow all hosts (use with caution)
 CORS_ALLOW_ALL_ORIGINS = True
 
-CSRF_TRUSTED_ORIGINS = ['http://localhost', 'http://localhost:8000']
+# CSRF_TRUSTED_ORIGINS = ['http://localhost', 'http://localhost:8000'] # 'http://*' not working
+
+SECURE_CROSS_ORIGIN_OPENER_POLICY = None
 
 ROOT_URLCONF = 'core.urls'
 

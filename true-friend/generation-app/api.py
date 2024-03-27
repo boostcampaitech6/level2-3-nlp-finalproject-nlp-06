@@ -145,7 +145,7 @@ async def generate(request: GenerationRequest,
 
 # get usernames (a.k.a. session ids) currently saved in redis
 @router.get("/sessions")
-async def get_session_ids(redis: Redis = Depends(get_redis)) -> list[SessionIdResponse]:
+async def get_session_ids(redis: Redis = Depends(get_redis)) -> List[SessionIdResponse]:
     pattern = "chat_history:*"
     cursor = '0' # should be str 0
     matching_keys = []
@@ -161,7 +161,7 @@ async def get_session_ids(redis: Redis = Depends(get_redis)) -> list[SessionIdRe
 
 @router.get("/sessions/{session_id}")
 async def get_session_turns(session_id: str, 
-                            redis: Redis = Depends(get_redis)) -> list[TurnResponse]:
+                            redis: Redis = Depends(get_redis)) -> List[TurnResponse]:
     key = f"chat_history:{session_id}"
     
     if not await redis.exists(key):
@@ -265,6 +265,7 @@ async def get_retrospective_by_user(username: str) -> List[RetrospectiveResponse
 
     return [
         RetrospectiveResponse(
+            id=uuid.UUID(retrospective.get("id")),
             text=retrospective.get("text"), 
             comment=retrospective.get("comment"), 
             date=datetime.fromisoformat(retrospective.get("date"))
@@ -312,7 +313,8 @@ async def predict_retrospective_by_user(request: RetrospectiveRequest,
     notice_url = f"http://223.130.139.176/api/{request.username}/notices/"
     data = {
         "title": "알림",
-        "text": "회고가 생성되었습니다. 지금 바로 회고탭에서 확인해보세요!"
+        "text": "회고가 생성되었습니다. 지금 바로 회고탭에서 확인해보세요!",
+        "retrospective_id": response.get("body").get("id") 
     }
     async with httpx.AsyncClient() as client:
         try:

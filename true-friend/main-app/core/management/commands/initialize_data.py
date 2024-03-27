@@ -25,7 +25,7 @@ class Command(BaseCommand):
 
         # Create a profile for the bot
         if not Profile.objects.filter(name=bot_name).exists():
-            Profile.objects.create(name=bot_name, profile_image="profiles/ai-hoshino.jpg")
+            Profile.objects.create(name=bot_name, profile_image="profiles/jiu.png")
         
         # Select the bot profile as configuration
         if not BotConfiguration.objects.exists():

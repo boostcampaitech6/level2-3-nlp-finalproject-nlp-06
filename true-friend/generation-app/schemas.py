@@ -1,6 +1,7 @@
 from pydantic import BaseModel
 from typing import List
 import datetime
+import uuid
 
 
 class GenerationRequest(BaseModel):
@@ -34,6 +35,7 @@ class RetrospectiveRequest(BaseModel):
 
 
 class RetrospectiveResponse(BaseModel):
+    id: uuid.UUID
     text: str
     comment: str
     date: datetime.datetime

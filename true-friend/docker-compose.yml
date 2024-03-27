@@ -129,6 +129,7 @@ services:
       POSTGRES_DB: "${DB_NAME}"
       DJANGO_DB_NAME: "${DJANGO_DB_NAME}"
       API_DB_NAME: "${API_DB_NAME}"
+      TZ: "Asia/Seoul"
     ports:
       - "5432:5432"
     volumes:
