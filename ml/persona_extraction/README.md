@@ -1,18 +1,40 @@
-# persona_extraction_model
+# Chat Persona extraction Model for Korean
 
-## Huggingface 공개
-### Model
-- [한국어 존댓말 사용자 발화에서 사용자의 페르소나 추출](https://huggingface.co/NLPBada/kobart-chat-persona-extraction)
-- [한국어 반말 사용자 발화에서 사용자의 페르소나 추출](https://huggingface.co/NLPBada/kobart-chat-persona-extraction-v2)
-### Dataset
-- [(한국어 반말 사용자 발화-사용자 페르소나) 쌍 데이터 구축](https://huggingface.co/datasets/NLPBada/korean-persona-chat-dataset/tree/main)
+## Chat Persona extraction Model이란?
 
-<br/>
+- 사용자의 일상 채팅에서 사용자의 페르소나를 추출하는 모델입니다.
+- 해당 모델을 개선할 수 있는 여러 Ablation 실험들은 다음 [블로그](https://blog.naver.com/gypsi12/223396121146)에서 확인하실 수 있습니다.
 
-## 실행 방법
+## How to Use
+- 🤗[Huggingface Hub](https://huggingface.co/NLPBada/kobart-chat-persona-extraction-v2)에 업로드된 모델을 곧바로 사용할 수 있습니다
+```python
+from transformers import AutoModel, AutoTokenizer
+
+model = AutoModel.from_pretrained("NLPBada/kobart-chat-persona-extraction-v2")
+tokenizer = AutoTokenizer.from_pretrained("NLPBada/kobart-chat-persona-extraction-v2")
+```
+
+## Finetuning
+
+|                         | Hardware | Max len |   LR | Batch | Train Step |
+| :---------------------- | -------: | ------: | ---: | ----: | ---------: |
+| **Encoder** | Tesla V100 32G   |    500 | 1e-5 |    16 |         1M |
+| **Decoder** | Tesla V100 32G   |    200 | 1e-5 |    16 |         1M |
+
+
+## Evaluation Result
+
+| 모델 | batch_size | epoch | 어투 | Rouge-1-f1 | Rouge-2-f1 | Rouge-L-f1 | BLEU | 전체 데이터셋 개수 | 데이터셋 |
+| --- | --- | --- | ----- | --- | --- | --- | --- | --- | --- |
+| KoBART | 16 | 4 | 존댓말 | 0.5913 | 0.3789 | **0.5882** | 0.4493 | 41316 | [데이터셋](https://www.aihub.or.kr/aihubdata/data/view.do?currMenu=115&topMenu=100&dataSetSn=71630)
+| ET5 | 8 | 4 | 존댓말 | 0.6127 | 0.3838 | **0.6086** | 0.4248 | 41316 | [데이터셋](https://www.aihub.or.kr/aihubdata/data/view.do?currMenu=115&topMenu=100&dataSetSn=71630)
+| KoBART | 16 | 8 | 반말 | 0.5500 | 0.3306 | **0.5512** | 0.4373 | 10328 | [데이터셋](https://huggingface.co/datasets/NLPBada/korean-persona-chat-dataset-v2)
+| ET5 | 8 | 10 | 반말 | 0.6068 | 0.3811 | **0.6026** | 0.4218 | 10328 | [데이터셋](https://huggingface.co/datasets/NLPBada/korean-persona-chat-dataset-v2)
+
+## 재현 방법
 
 ### 1. requirements
-cuda version : 11.4, linux-64 에서
+cuda version : 11.2, linux-64 에서
 ```
 # $ conda env create --name [가상환경이름] -f requirements.yaml
 ```
