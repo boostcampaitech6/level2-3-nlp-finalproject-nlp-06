@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}
+My page
+{% endblock title %}
+
+{% block stylesheets %}
+<link rel="stylesheet" href="{% static "users/css/styles.css" %}">
+{% endblock stylesheets %}
+
+{% block content %}
+
+<div class="profile-container">
+    <div class="profile-window">
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+
+            <div class="profile-image-section">
+                <label for="id_profile_image">{{ form.profile_image.label }}</label>
+                <div class="profile-image">
+                    {{ form.profile_image }}
+                    <img src="{{ profile.image_url }}" alt="profile" id="profile-image-preview">
+                </div>
+            </div>
+            
+            <div class="profile-info">
+                <div class="profile-field">
+                    <label for="id_name">{{ form.name.label }}</label>
+                    {{ form.name }}
+                </div>
+                <div class="profile-field">
+                    <label>Username</label>
+                    <div class="readonly-field">{{ profile.user.username }}</div>
+                </div>
+                <div class="profile-field">
+                    <label>Email</label>
+                    <div class="readonly-field">{{ profile.user.email }}</div>
+                </div>
+                <div class="profile-field">
+                    <label>Last Login</label>
+                    <div class="readonly-field">{{ profile.user.last_login }}</div>
+                </div>
+            </div>
+            <div class="profile-update">
+                <button type="submit">Update</button>
+            </div>
+        </form>
+
+        <div class="addition-link">
+            <a href="{% url "delete-account" %}">Delete account</a>
+        </div>
+
+    </div>
+</div>
+
+
+{% endblock content %}
+
+{% block scripts %}
+<script src="{% static "users/js/app.js" %}"></script>
+{% endblock scripts %}

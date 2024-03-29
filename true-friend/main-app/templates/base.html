@@ -1,0 +1,38 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/material-design-iconic-font/2.2.0/css/material-design-iconic-font.min.css">
+    <link rel="stylesheet" href="{% static "css/styles.css" %}">
+    <title>{% block title %}{% endblock title %}</title>
+    {% block stylesheets %}
+    {% endblock stylesheets %}
+</head>
+<body>
+    {% include "navbar.html" %}
+
+    {% if messages %}
+        {% for message in messages %}
+        <div class="alert alert-{{ message.tags }} alert-dismissible" role="alert">
+            {{ message }}
+            <button type="button" class="close" onclick="this.parentElement.style.display='none';">&times;</button>
+        </div>
+        {% endfor %}
+    {% endif %}
+
+    <div class="main-content">
+        {% block content %}
+    
+        {% endblock content %}
+    </div>
+    <script>const hostname="{{ hostname }}";</script>
+    <script src="{% static "js/app.js" %}"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.slim.min.js" integrity="sha256-kmHvs0B+OpCW5GVHUNjv9rOmY0IvSIRcf7zGUDTDQM8=" crossorigin="anonymous"></script>
+    {% block scripts %}
+    {% endblock scripts %}
+</body>
+
+</html>

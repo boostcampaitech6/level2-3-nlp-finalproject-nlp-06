@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}
+Chatbot
+{% endblock title %}
+
+{% block stylesheets %}
+<link rel="stylesheet" href="{% static "chat/css/styles.css" %}">
+{% endblock stylesheets %}
+
+{% block content %}
+
+<div class="chat-container">
+
+    <div id="chat-window" class="chat-window">
+        <!-- Chat messages will be appended here -->
+
+        {% if not user_messages %}
+        <div class="message">
+            <div class="message-profile">
+                <img src="{{ bot_profile.image_url }}" alt="">
+            </div>
+            <div class="message-content">
+                <div class="message-profile-name">{{ bot_profile.name }}</div>
+                <div class="message-text">안녕? 난 {{ bot_profile.name }}야! 오늘도 만나서 반가워!</div>
+            </div>
+        </div>
+        {% endif %}
+        
+        {% for turn in turns %}
+            {% include "chat/includes/message.html" %}
+        {% endfor %}
+
+    </div>
+
+    <div class="input-area">
+        <form id="chat-form" class="chat-form" method="POST">
+            {% csrf_token %}
+            {{ form.message }}
+            <button type="submit" class="send-button"><i class="zmdi zmdi-mail-send"></i></button>
+        </form>
+    </div>
+    
+    {% if user.is_authenticated %}
+        <div class="button-area">
+            <button id="extract-persona" class="extract-persona-button">유저 페르소나 추출</button>
+            <button id="predict-retrospective" class="predict-retrospective-button">회고 생성</button>
+            <button id="predict-retrospective-with-remove" class="predict-retrospective-with-remove-button">대화 내용 삭제 및 회고 생성</button>
+        </div>
+    {% endif %}
+    
+</div>
+
+{% if user.is_authenticated %}
+<div id="user-data" data-username="{{ user.username }}"></div>
+{% endif %}
+{% if profile %}
+<div id="user-profile-data" data-image-url="{{ profile.image_url }}" data-name="{{ profile.name }}"></div>
+{% endif %}
+{% if bot_profile %}
+<div id="bot-profile-data" data-image-url="{{ bot_profile.image_url }}" data-name="{{ bot_profile.name }}"></div>
+{% endif %}
+
+{% endblock content %}
+
+{% block scripts %}
+<script src="{% static "chat/js/app.js" %}"></script>
+{% endblock scripts %}
+
