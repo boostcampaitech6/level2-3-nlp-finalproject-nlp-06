@@ -11,8 +11,9 @@ async def create_retrospective_for_all_user():
     logger.info("Creating retrospective for all users")
     url = "http://generation_app:8001/retrospective/all"
     try:
-        response = await httpx.post(url)
-        response.raise_for_status()
+        async with httpx.AsyncClient(timeout=None) as client:
+            response = await client.post(url)
+            response.raise_for_status()
     except httpx.HTTPStatusError as e:
         logger.error(f"HTTP error occurred: {e}")
     except Exception as e:

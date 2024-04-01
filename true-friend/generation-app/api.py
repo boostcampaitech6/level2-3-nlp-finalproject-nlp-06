@@ -337,7 +337,6 @@ async def predict_retrospective_by_user(request: RetrospectiveRequest,
 @router.post("/retrospective/all")
 async def predict_retrospective(redis: Redis = Depends(get_redis)):
     websocket_client = WebSocketClient(uri=config.retrospective_app_ws_url)
-    websocket_client.handshake()
 
     # reading all exising user keys
     pattern = "chat_history:*"
@@ -347,10 +346,16 @@ async def predict_retrospective(redis: Redis = Depends(get_redis)):
         cursor, keys = await redis.scan(cursor=cursor, match=pattern, count=100)
         matching_keys.extend(keys)
 
+    logger.info(f"Matching keys: {matching_keys}")
+
     # get chat data for each user
-    async for key in matching_keys:
+    for key in matching_keys:
+        await websocket_client.handshake()
+
         username = key.decode("utf-8").split(":")[1]
         name = await redis.get(f"username:{username}")
+
+        logger.info(f"Predicting retrospective for {username}")
 
         turns = await redis.lrange(key, 0, -1)
         turns = [json.loads(turn.decode("utf-8")) for turn in turns[::-1]]
@@ -369,7 +374,6 @@ async def predict_retrospective(redis: Redis = Depends(get_redis)):
             return JSONResponse({"message": "error", "body": f"Failed to predict retrospective of {data.get('username')}"}, status_code=422)
 
         await websocket_client.close()
-        del websocket_client
 
         notice_url = f"http://223.130.139.176/api/{username}/notices/"
         data = {
