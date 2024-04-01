@@ -94,19 +94,15 @@ chatForm.addEventListener('submit', function (event) {
             <div class="message-content">
                 <div class="message-profile-name">${botProfileData.dataset.name}</div>
                 <div class="message-text">${botResponse}</div>
-                <div class="message-persona">
-                    <ul>
-                    </ul>
-                </div>
             </div>
             `;
 
-            const messagePersona = messageItem.querySelector('.message-persona ul');
-            userPersonas.forEach(persona => {
-                const personaItem = document.createElement('li');
-                personaItem.textContent = persona;
-                messagePersona.appendChild(personaItem);
-            });
+            // const messagePersona = messageItem.querySelector('.message-persona ul');
+            // userPersonas.forEach(persona => {
+            //     const personaItem = document.createElement('li');
+            //     personaItem.textContent = persona;
+            //     messagePersona.appendChild(personaItem);
+            // });
             
             spinner.remove();
             chatWindow.appendChild(messageItem);
@@ -114,84 +110,29 @@ chatForm.addEventListener('submit', function (event) {
 });
 
 
-const extractPersonaButton = document.getElementById('extract-persona');
-extractPersonaButton.addEventListener('click', function () {
-    const userData = document.getElementById('user-data');
-    const username = userData.dataset.username;
-    // console.log(`extractPersonaButton: ${username}`)
-    fetch(`http://${hostname}:8001/persona/`, {
-        method: 'POST',
+
+const deleteHistoryButton = document.getElementById('delete-history');
+deleteHistoryButton.addEventListener('click', function (event) {
+    event.preventDefault();
+    const csrftoken = document.cookie.split('; ').find(row => row.startsWith('csrftoken=')).split('=')[1];
+    // const userData = document.getElementById('user-data');
+    // const username = userData.dataset.username;
+    fetch(``, {
+        method: 'DELETE',
         headers: {
             'Content-Type': 'application/json',
+            'X-CSRFToken': csrftoken,
         },
-        body: JSON.stringify({
-            username: username,
-        })
+        credentials: 'same-origin',
     })
-        .then(response => response.json())
-        .then(data => {
-            if (data.message === 'success') {
-                alert('페르소나 추출 성공!');
-            } else {
-                alert('페르소나 추출 실패');
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
             }
-        });
-});
-
-
-const predictRetrospectiveButton = document.getElementById('predict-retrospective');
-predictRetrospectiveButton.addEventListener('click', function () {
-    const userData = document.getElementById('user-data');
-    const username = userData.dataset.username;
-    const userProfileData = document.getElementById('user-profile-data');
-    const name = userProfileData.dataset.name;
-    // console.log(`predictRetrospectiveButton: ${username}`)
-    fetch(`http://${hostname}:8001/retrospective/`, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-            username: username,
-            name: name,
+            
+            window.location.reload();
+            // return response.json();
+            return null;
         })
-    })
-        .then(response => response.json())
-        .then(data => {
-            if (data.message === 'success') {
-                alert('회고 생성 성공!');
-            } else {
-                alert('회고 생성 실패');
-            }
-        });
-});
-
-
-const predictRetrospectiveWithRemoveButton = document.getElementById('predict-retrospective-with-remove');
-predictRetrospectiveWithRemoveButton.addEventListener('click', function () {
-    const userData = document.getElementById('user-data');
-    const username = userData.dataset.username;
-    const userProfileData = document.getElementById('user-profile-data');
-    const name = userProfileData.dataset.name;
-    // console.log(`predictRetrospectiveWithRemoveButton: ${username}`)
-    fetch(`http://${hostname}:8001/retrospective/`, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-            username: username,
-            name: name,
-            remove_history: true,
-        })
-    })
-        .then(response => response.json())
-        .then(data => {
-            if (data.message === 'success') {
-                alert('회고 생성 성공!');
-            } else {
-                alert('회고 생성 실패');
-            }
-        });
 });
 

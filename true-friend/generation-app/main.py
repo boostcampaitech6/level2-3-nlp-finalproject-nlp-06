@@ -11,7 +11,7 @@ from websocket import WebSocketClient
 from database import connect_to_redis
 from model import load_llm_chain
 from api import router
-from scheduler import scheduler, create_retrospective_for_all_user
+from scheduler import scheduler, create_retrospective_for_all_user, test_timer
 
 
 
@@ -40,6 +40,9 @@ async def lifespan(app: FastAPI):
             timezone="Asia/Seoul"
         )
     )
+    scheduler.add_job(test_timer, 'interval', minutes=10)
+    if not scheduler.running:
+        scheduler.start()
     
     logger.info("Loading llm chain")
     load_llm_chain()

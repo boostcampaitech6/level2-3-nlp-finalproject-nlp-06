@@ -3,16 +3,19 @@ from django.contrib.auth.models import User
 from django.core.validators import RegexValidator
 from django.core.exceptions import ValidationError
 import uuid
+from .choices import GENDER_CHOICES, AGE_CHOICES
 
 # Create your models here.
 
-name_validator = RegexValidator(r'^[ㄱ-ㅎ가-힣a-zA-Z0-9][ㄱ-ㅎ가-힣a-zA-Z0-9 ]*[ㄱ-ㅎ가-힣a-zA-Z0-9]$', 'Only letters, numbers, and spaces are allowed')
+name_validator = RegexValidator(r'^[ㄱ-ㅎ가-힣][ㄱ-ㅎ가-힣]*[ㄱ-ㅎ가-힣]$', '한글만 입력가능합니다.')
 
 class Profile(models.Model):
     # remove username and email from here (use User model instead)
     user = models.OneToOneField(User, on_delete=models.CASCADE, null=True, blank=True)
     name = models.CharField(max_length=200, blank=True, null=True, validators=[name_validator]) 
     profile_image = models.ImageField(null=True, blank=True, upload_to="profiles/", default="profiles/user-default.png")
+    gender = models.CharField(max_length=2, choices=GENDER_CHOICES, blank=True, null=True, default="남성") # 남성 (2 characters)
+    age = models.CharField(max_length=3, choices=AGE_CHOICES, blank=True, null=True, default="20대") # 10대 (3 characters)
     id = models.UUIDField(default=uuid.uuid4, unique=True, primary_key=True, editable=False) # Primary key, not editable
     created = models.DateTimeField(auto_now_add=True) # Automatically add date and time
 

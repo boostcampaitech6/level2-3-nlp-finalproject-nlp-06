@@ -59,6 +59,10 @@ class RegisterUserView(View):
             user.save()
 
             profile = Profile.objects.create(user=user)
+            profile.name = form.cleaned_data.get('name')
+            profile.gender = form.cleaned_data.get('gender')
+            profile.age = form.cleaned_data.get('age')
+            profile.save()
             messages.success(request, 'Account created successfully')
             login(request, user)
             return redirect('user-profile')

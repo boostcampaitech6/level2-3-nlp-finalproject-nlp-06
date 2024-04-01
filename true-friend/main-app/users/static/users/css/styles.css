@@ -68,6 +68,16 @@
     color: red;
 }
 
+.card select {
+    width: 100%;
+    padding: 10px;
+    margin: 5px 0 20px 0;
+    display: inline-block; /* or block, depending on layout needs */
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
 
 /* Profile Styles */
 .profile-container {

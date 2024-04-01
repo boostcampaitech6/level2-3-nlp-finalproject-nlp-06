@@ -48,8 +48,8 @@ async def generate(request: GenerationRequest,
     await websocket_client.handshake()
 
     name_key = f"username:{request.username}"
-    if not redis.exists(name_key):
-        await redis.set(name_key, request.name)
+    # if not await redis.exists(name_key): # just in case the user changes his name
+    await redis.set(name_key, request.name)
     
     key = f"chat_history:{request.username}"
     user_input = request.text
@@ -89,10 +89,10 @@ async def generate(request: GenerationRequest,
     # logger.info(f"History:\n{history}")
 
     context = {
-        "user_name": request.name,
-        "user_age": "20대",
-        "user_sex": "남자",
-        "user_persona": concat_personas,
+        "name": request.name,
+        "gender": request.gender,
+        "age": request.age,
+        "persona": concat_personas,
         "history": history,
         "input": user_input
     }
@@ -165,6 +165,19 @@ async def get_session_turns(session_id: str,
             bot_response=turn.get("bot_response")
         ) for turn in turns
     ]
+
+
+
+@router.delete("/sessions/{session_id}")
+async def delete_session_turns(session_id: str, 
+                            redis: Redis = Depends(get_redis)):
+    key = f"chat_history:{session_id}"
+    
+    if not await redis.exists(key):
+        return JSONResponse({"message": "error", "body": "No data found for this user"}, status_code=404)
+    
+    await redis.delete(key)
+    return JSONResponse({"message": "success"}, status_code=200)
 
 
 
@@ -357,6 +370,23 @@ async def predict_retrospective(redis: Redis = Depends(get_redis)):
 
         await websocket_client.close()
         del websocket_client
+
+        notice_url = f"http://223.130.139.176/api/{username}/notices/"
+        data = {
+            "title": "알림",
+            "text": "회고가 생성되었습니다. 지금 바로 회고탭에서 확인해보세요!",
+            "retrospective_id": response.get("body").get("id") 
+        }
+        async with httpx.AsyncClient() as client:
+            try:
+                response = await client.post(notice_url, json=data)
+                response.raise_for_status() # object Response can't be used in 'await' expression
+                if response.status_code != 201: # new entity created 
+                    return JSONResponse({"message": "error", "body": "Success to predict retrospective but failed to send notice"}, status_code=422)
+            except httpx.HTTPStatusError as e:
+                logger.error(f"HTTP error occurred: {e}")
+            except Exception as e:
+                logger.error(f"An error occurred: {e}")
 
     return JSONResponse({"message": "success"}, status_code=200)
 
