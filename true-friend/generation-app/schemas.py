@@ -7,6 +7,8 @@ import uuid
 class GenerationRequest(BaseModel):
     username: str
     name: str
+    gender: str
+    age: str
     text: str
 
 

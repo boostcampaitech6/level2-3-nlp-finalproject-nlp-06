@@ -23,6 +23,7 @@ services:
       ADMIN_PASSWORD: "${DJANGO_ADMIN_PASSWORD}"
       BOT_NAME: "${DJANGO_BOT_NAME}"
       HOST_NAME: "${DJANGO_HOST_NAME}"
+      TZ: "${TZ}"
     image: "turefriend/django-main-app:latest"
     container_name: "django-main-app"
 
@@ -46,6 +47,7 @@ services:
       RETROSPECTIVE_APP_PORT: "8003"
       RETROSPECTIVE_SCHEDULER_HOUR: "${RETROSPECTIVE_SCHEDULER_HOUR}"
       RETROSPECTIVE_SCHEDULER_MINUTE: "${RETROSPECTIVE_SCHEDULER_MINUTE}"
+      TZ: "${TZ}"
     deploy:
       resources:
         reservations:
@@ -73,6 +75,7 @@ services:
       TF_MODEL_ID: "${PERSONA_TF_MODEL_ID}"
       HF_TOKEN: "${PERSONA_HF_TOKEN}"
       HF_HOME: "${HF_HOME}"
+      TZ: "${TZ}"
     deploy:
       resources:
         reservations:
@@ -99,6 +102,7 @@ services:
       TF_MODEL_ID: "${RETROSPECTIVE_TF_MODEL_ID}"
       LLM_MODEL_PATH: "${RETROSPECTIVE_LLM_MODEL_PATH}"
       HF_HOME: "${HF_HOME}"
+      TZ: "${TZ}"
     deploy:
       resources:
         reservations:
@@ -114,6 +118,7 @@ services:
     # command: redis-server --appendonly yes --appendfsync everysec # Enabling AOF persistence
     environment:
       REDIS_ARGS: "--appendonly yes --appendfsync everysec"
+      TZ: "${TZ}"
     ports:
       - "6379:6379"
       - "8005:8001"
@@ -129,7 +134,7 @@ services:
       POSTGRES_DB: "${DB_NAME}"
       DJANGO_DB_NAME: "${DJANGO_DB_NAME}"
       API_DB_NAME: "${API_DB_NAME}"
-      TZ: "Asia/Seoul"
+      TZ: "${TZ}"
     ports:
       - "5432:5432"
     volumes:
