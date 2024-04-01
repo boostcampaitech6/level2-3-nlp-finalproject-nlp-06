@@ -8,6 +8,12 @@
 <p align="center"> 매일 밤 10시, 여러분의 소중한 하루를 기억하고 정리해주는 '지우'를 만나보세요!</p>
 <br>
 
+## 서비스 예시
+
+https://github.com/boostcampaitech6/level2-3-nlp-finalproject-nlp-06/assets/82081872/aa6c124a-e417-45bf-8c64-5a28d6f354ef
+
+
+
 ## 팀원
 |김재현|서동해|송민환|장수정|황예원|황재훈|
 |:--:|:--:|:--:|:--:|:--:|:--:|
@@ -60,3 +66,4 @@ Translation, and Comprehension](https://arxiv.org/abs/1910.13461)\
 [5] [ET5 (ETRI)](https://aiopen.etri.re.kr/et5Model)\
 [6] [SOLAR 10.7B: Scaling Large Language Models with Simple yet Effective Depth Up-Scaling](https://aiopen.etri.re.kr/et5Model)\
 [6] [NEW 한국어 멀티세션 대화 (AI HUB)](https://www.aihub.or.kr/aihubdata/data/view.do?currMenu=115&topMenu=100&dataSetSn=71630)
+****
