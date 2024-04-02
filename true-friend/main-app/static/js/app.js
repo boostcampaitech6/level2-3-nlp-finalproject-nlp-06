@@ -8,7 +8,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
     noticeModalTrigger.addEventListener('click', function(event) {
         event.preventDefault();
-        fetch(`http://${hostname}/api/${username}/notices/`, {
+        fetch(`https://${hostname}/api/${username}/notices/`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -38,7 +38,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
                         noticeItem.addEventListener('click', function(event) {
                             event.preventDefault();
                             // console.log(`Notice ID: ${notice.id} has been clicked!`);
-                            fetch(`http://${hostname}/api/notices/${notice.id}/`, {
+                            fetch(`https://${hostname}/api/notices/${notice.id}/`, {
                                 method: 'PATCH',
                                 headers: {
                                     'Content-Type': 'application/json',
@@ -66,7 +66,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
                     noticeItem.addEventListener('click', function(event) {
                         event.preventDefault();
                         const queryParams = `?id=${notice.retrospective_id}`;
-                        window.location.href = `http://${hostname}/retrospectives${queryParams}`;
+                        window.location.href = `https://${hostname}/retrospectives${queryParams}`;
                     });
 
                     noticeContainer.appendChild(noticeItem);

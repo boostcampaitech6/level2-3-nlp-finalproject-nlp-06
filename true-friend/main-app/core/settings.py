@@ -30,7 +30,7 @@ SECRET_KEY = os.environ.get("SECRET_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["*"]
+ALLOWED_HOSTS = ["truefriendchat.com", "www.truefriendchat.com", "localhost"]
 
 
 # Application definition
@@ -114,7 +114,7 @@ MIDDLEWARE = [
 # To allow all hosts (use with caution)
 CORS_ALLOW_ALL_ORIGINS = True
 
-# CSRF_TRUSTED_ORIGINS = ['http://localhost', 'http://localhost:8000'] # 'http://*' not working
+CSRF_TRUSTED_ORIGINS = ['https://truefriendchat.com', 'https://www.truefriendchat.com'] # 'http://*' not working
 
 SECURE_CROSS_ORIGIN_OPENER_POLICY = None
 

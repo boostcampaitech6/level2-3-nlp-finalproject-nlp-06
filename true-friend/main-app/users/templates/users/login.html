@@ -18,7 +18,9 @@ Login
             {% csrf_token %}
             <h2 class="text-center">Log in to your account</h2>
             {% for field in form %}
-                {{ field.label_tag }} 
+                <p>
+                    {{ field.label_tag }} 
+                </p>
                 {{ field }}
                 {% if field.errors %}
                 <small>{{ field.errors|striptags }}</small> 

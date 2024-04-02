@@ -313,7 +313,7 @@ async def predict_retrospective_by_user(request: RetrospectiveRequest,
     # notice_url = f"http://host.docker.internal:8000/api/{request.username}/notices/"
     # notice_url = f"http://main_app/api/{request.username}/notices/"
     # notice_url = f"http://localhost/api/{request.username}/notices/"
-    notice_url = f"http://223.130.139.176/api/{request.username}/notices/"
+    notice_url = f"https://truefriendchat.com/api/{request.username}/notices/"
     data = {
         "title": "알림",
         "text": "회고가 생성되었습니다. 지금 바로 회고탭에서 확인해보세요!",
@@ -375,7 +375,7 @@ async def predict_retrospective(redis: Redis = Depends(get_redis)):
 
         await websocket_client.close()
 
-        notice_url = f"http://223.130.139.176/api/{username}/notices/"
+        notice_url = f"https://truefriendchat.com/api/{username}/notices/"
         data = {
             "title": "알림",
             "text": "회고가 생성되었습니다. 지금 바로 회고탭에서 확인해보세요!",

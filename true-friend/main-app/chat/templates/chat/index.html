@@ -77,7 +77,7 @@ Chatbot
         const userData = document.getElementById('user-data');
         const username = userData.dataset.username;
         // console.log(`extractPersonaButton: ${username}`)
-        fetch(`http://${hostname}:8001/persona/`, {
+        fetch(`https://${hostname}/generation/persona/`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -106,7 +106,7 @@ Chatbot
         const userProfileData = document.getElementById('user-profile-data');
         const name = userProfileData.dataset.name;
         // console.log(`predictRetrospectiveButton: ${username}`)
-        fetch(`http://${hostname}:8001/retrospective/`, {
+        fetch(`https://${hostname}/generation/retrospective/`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -136,7 +136,7 @@ Chatbot
         const userProfileData = document.getElementById('user-profile-data');
         const name = userProfileData.dataset.name;
         // console.log(`predictRetrospectiveWithRemoveButton: ${username}`)
-        fetch(`http://${hostname}:8001/retrospective/`, {
+        fetch(`https://${hostname}/generation/retrospective/`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

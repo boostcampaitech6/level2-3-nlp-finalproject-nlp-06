@@ -21,7 +21,7 @@ notices.forEach((notice) => {
     let deleteBtn = notice.querySelector('.delete-notice div');
     deleteBtn.addEventListener('click', function(event) {
         event.preventDefault();
-        fetch(`http://${hostname}:8000/api/notices/${noticeId}/`, {
+        fetch(`https://${hostname}/api/notices/${noticeId}/`, {
             method: 'PATCH',
             headers: {
                 'Content-Type': 'application/json',
