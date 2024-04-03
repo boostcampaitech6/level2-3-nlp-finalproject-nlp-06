@@ -74,6 +74,7 @@ services:
       DB_HOST: "${DB_HOST}"
       TF_MODEL_ID: "${PERSONA_TF_MODEL_ID}"
       HF_TOKEN: "${PERSONA_HF_TOKEN}"
+      EMBEDDING_MODEL_ID: "${PERSONA_EMBEDDING_MODEL_ID}"
       HF_HOME: "${HF_HOME}"
       TZ: "${TZ}"
     deploy:

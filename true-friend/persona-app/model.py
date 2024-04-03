@@ -5,6 +5,7 @@ from tqdm.auto import tqdm
 from transformers import (
     AutoConfig, 
     AutoTokenizer, 
+    AutoModel,
     AutoModelForCausalLM, 
     T5ForConditionalGeneration, 
     T5Model
@@ -15,7 +16,7 @@ import torch
 from config import config
 
 tf_device, tf_tokenizer, tf_model = None, None, None
-embeddings = None
+embedding_device, embedding_tokenizer, embedding_model = None, None, None
  
 
 def load_tf_model():
@@ -33,14 +34,22 @@ def get_tf_model():
     return tf_device, tf_tokenizer, tf_model
 
 
-def load_embeddings():
+def load_embedding_model():
     # https://api.python.langchain.com/en/latest/embeddings/langchain_openai.embeddings.base.OpenAIEmbeddings.html
-    global embeddings
-    embeddings = OpenAIEmbeddings()
+    # global embeddings
+    # embeddings = OpenAIEmbeddings()
+    global embedding_device
+    embedding_device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+
+    global embedding_tokenizer
+    embedding_tokenizer = AutoTokenizer.from_pretrained(config.embedding_model_id)
+
+    global embedding_model
+    embedding_model = AutoModel.from_pretrained(config.embedding_model_id, token=config.hf_token).to(embedding_device)
 
 
-def get_embeddings():
-    return embeddings
+def get_embedding_model():
+    return embedding_device, embedding_tokenizer, embedding_model
 
 
 def make_prediction(text: List[str], device: torch.device, tokenizer: AutoTokenizer, model: T5Model) -> str:
@@ -51,13 +60,21 @@ def make_prediction(text: List[str], device: torch.device, tokenizer: AutoTokeni
     summary = tokenizer.decode(outputs.squeeze(), skip_special_tokens=True)
     return summary
 
+# https://huggingface.co/jhgan/ko-sroberta-multitask
+def mean_pooling(model_output, attention_mask):
+    token_embeddings = model_output[0] #First element of model_output contains all token embeddings
+    input_mask_expanded = attention_mask.unsqueeze(-1).expand(token_embeddings.size()).float()
+    return torch.sum(token_embeddings * input_mask_expanded, 1) / torch.clamp(input_mask_expanded.sum(1), min=1e-9)
 
-def make_embed(text: str, embeddings: OpenAIEmbeddings) -> List[float]:
-    return embeddings.embed_query(text)
 
+def make_embeds(text: List[str], device: torch.device, tokenizer: AutoTokenizer, model: AutoModel) -> List[float]:
+    inputs = tokenizer(text, padding=True, truncation=True, return_tensors='pt').to(device)
+    
+    with torch.inference_mode():
+        outputs = model(**inputs)
 
-def make_embeds(text: List[str], embeddings: OpenAIEmbeddings) -> List[List[float]]:
-    return embeddings.embed_documents(text)
+    embeddings = mean_pooling(outputs, inputs['attention_mask'])
+    return embeddings.detach().cpu().tolist()
 
 
 if __name__ == "__main__":
