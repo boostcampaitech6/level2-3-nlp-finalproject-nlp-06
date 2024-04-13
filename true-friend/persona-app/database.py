@@ -14,7 +14,9 @@ class UserPersona(SQLModel, table=True):
     id: Optional[UUID] = Field(default_factory=uuid4, primary_key=True)
     username: str
     text: str
-    embedding: List[float] = Field(sa_column=Column(Vector(1536))) # openai embedding dim is 1536 in dafault model 'text-embedding-ada-002'
+    embedding: List[float] = Field(sa_column=Column(Vector(768))) 
+    # ko-sroberta-multitask maps sentences & paragraphs to a 768 dimensional dense vector space
+    # openai embedding dim is 1536 in dafault model 'text-embedding-ada-002'
     created_at: datetime.datetime = Field(default_factory=datetime.datetime.utcnow)
 
 

@@ -11,7 +11,7 @@ import json
 
 
 from schemas import PredictRequest, UserPersonaRequest, UserPersonaResponse
-from model import get_tf_model, get_embeddings, make_prediction, make_embeds, make_embed
+from model import get_tf_model, get_embedding_model, make_prediction, make_embeds
 from database import UserPersona, engine, get_db_session
 
 
@@ -20,19 +20,21 @@ router = APIRouter()
 
 @router.post("/predict")
 async def predict(request: PredictRequest, 
-                  tokenizer_and_model: tuple = Depends(get_tf_model), 
-                  embeddings: Embeddings = Depends(get_embeddings),
+                  tf_tokenizer_and_model: tuple = Depends(get_tf_model), 
+                  embedding_tokenizer_and_model: Embeddings = Depends(get_embedding_model),
                   db: AsyncSession = Depends(get_db_session)) -> Response:
-    device, tokenizer, model = tokenizer_and_model
+    tf_device, tf_tokenizer, tf_model = tf_tokenizer_and_model
+    embedding_device, embedding_tokenizer, embedding_model = embedding_tokenizer_and_model
+
 
     # logger.info(f"device: {device}")
     # logger.info(f"tokenizer: {tokenizer}")
     # logger.info(f"model: {model}")
 
-    predictions = make_prediction(request.user_inputs, device, tokenizer, model)
+    predictions = make_prediction(request.user_inputs, tf_device, tf_tokenizer, tf_model)
     predictions = [prediction.strip() for prediction in predictions.replace(".", "").split(",") if prediction]
 
-    embeds = make_embeds(predictions, embeddings)
+    embeds = make_embeds(predictions, embedding_device, embedding_tokenizer, embedding_model)
 
     user_personas = [
         UserPersona(username=request.username, text=prediction, embedding=embed)
@@ -47,9 +49,11 @@ async def predict(request: PredictRequest,
 
 @router.post("/persona")
 async def get_persona(request: UserPersonaRequest, 
-                      embeddings: Embeddings = Depends(get_embeddings),
+                      embedding_tokenizer_and_model: Embeddings = Depends(get_embedding_model),
                       db: AsyncSession = Depends(get_db_session)) -> List[UserPersonaResponse]:
-    user_input_embed = make_embed(request.user_input, embeddings) 
+    embedding_device, embedding_tokenizer, embedding_model = embedding_tokenizer_and_model
+
+    user_input_embed = make_embeds([request.user_input], embedding_device, embedding_tokenizer, embedding_model) 
 
     # https://github.com/pgvector/pgvector-python/blob/master/README.md#sqlmodel
     # l2_distance, cosine_distance, max_inner_product
@@ -101,11 +105,11 @@ async def get_persona_by_username(username: str,
 # maintain single connection from generation app
 @router.websocket("/ws")
 async def websocket_endpoint(websocket: WebSocket,
-                             tokenizer_and_model: tuple = Depends(get_tf_model), 
-                             embeddings: Embeddings = Depends(get_embeddings),
+                             tf_tokenizer_and_model: tuple = Depends(get_tf_model), 
+                             embedding_tokenizer_and_model: Embeddings = Depends(get_embedding_model),
                              db: AsyncSession = Depends(get_db_session)):
-    device, tokenizer, model = tokenizer_and_model
-    embeddings = embeddings
+    tf_device, tf_tokenizer, tf_model = tf_tokenizer_and_model
+    embedding_device, embedding_tokenizer, embedding_model = embedding_tokenizer_and_model
 
     await websocket.accept()
     await websocket.send_json({"message":"Connection successful"})
@@ -117,10 +121,10 @@ async def websocket_endpoint(websocket: WebSocket,
             # from post("/predict")
             if data.get("type") == "post_predict":
                 # Prepare some summary to send back
-                predictions = make_prediction(data.get("user_inputs"), device, tokenizer, model)
+                predictions = make_prediction(data.get("user_inputs"), tf_device, tf_tokenizer, tf_model)
                 predictions = list(set([prediction.strip() for prediction in predictions.replace(".", "").split(",") if prediction])) # change to , based on the model output
 
-                embeds = make_embeds(predictions, embeddings)
+                embeds = make_embeds(predictions, embedding_device, embedding_tokenizer, embedding_model)
 
                 user_personas = []
                 for prediction, embed in zip(predictions, embeds):
@@ -149,7 +153,7 @@ async def websocket_endpoint(websocket: WebSocket,
 
             # from get("/persona")
             elif data.get("type") == "get_persona":
-                user_input_embed = make_embed(data.get("user_input"), embeddings) 
+                user_input_embed = make_embeds([data.get("user_input")], embedding_device, embedding_tokenizer, embedding_model) 
                 result = await db.execute(
                     select(UserPersona)
                     .filter(UserPersona.username == data.get("username"))

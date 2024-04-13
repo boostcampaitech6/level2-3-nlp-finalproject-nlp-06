@@ -76,15 +76,12 @@ async def generate(request: GenerationRequest,
     # get history
     # should work if no key exists (initial user input)
     history = ""
-    turns = await redis.lrange(key, 0, 10) 
+    turns = await redis.lrange(key, 0, 5) 
     if len(turns) > 0:
         turns = [json.loads(turn.decode("utf-8")) for turn in turns[::-1]]
         for turn in turns:
             history += f"{request.name}: " + turn.get("user_input") + "\n"
             history += "지우: " + turn.get("bot_response") + "\n"
-    else:
-        history += f"{request.name}: \n"
-        history += "지우: \n"
 
     # logger.info(f"History:\n{history}")
 

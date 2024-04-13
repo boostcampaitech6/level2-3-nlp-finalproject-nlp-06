@@ -13,7 +13,7 @@ import json
 from api import router
 from config import config
 from database import engine, UserPersona
-from model import load_tf_model, load_embeddings
+from model import load_tf_model, load_embedding_model
 
 
 
@@ -34,7 +34,7 @@ async def lifespan(app: FastAPI):
     load_tf_model()
 
     logger.info("Load embeddings")
-    load_embeddings()
+    load_embedding_model()
 
     # The server starts to recieve requests after yield
     yield
