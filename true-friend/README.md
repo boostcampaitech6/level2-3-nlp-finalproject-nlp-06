@@ -98,6 +98,8 @@ DJANGO_ADMIN_PASSWORD=
 DJANGO_BOT_NAME=
 DJANGO_HOST_NAME=
 HF_HOME=/app/models/.cache
+RETROSPECTIVE_SCHEDULER_HOUR=17
+RETROSPECTIVE_SCHEDULER_MINUTE=0
 ```
 
 - `OPENAI_API_KEY` :  사용에 필요하며, [사이트](https://platform.openai.com/)에서 미리 요금을 충전해 놓아야 합니다.

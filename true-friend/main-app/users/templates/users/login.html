@@ -18,7 +18,9 @@ Login
             {% csrf_token %}
             <h2 class="text-center">Log in to your account</h2>
             {% for field in form %}
-                {{ field.label_tag }} 
+                <p>
+                    {{ field.label_tag }} 
+                </p>
                 {{ field }}
                 {% if field.errors %}
                 <small>{{ field.errors|striptags }}</small> 
@@ -27,7 +29,7 @@ Login
             
             <input type="submit" value="Login" class="btn btn-primary full-width">
             <hr>
-            <p class="text-center">Forgot your password <a href="#">Reset Password</a></p>
+            <p class="text-center">Forgot your password? <a href="#">Reset Password</a></p>
             <p class="text-center">Don't have a account? <a href="{% url "register" %}">Join Now</a></p>
       </form>
     </div>

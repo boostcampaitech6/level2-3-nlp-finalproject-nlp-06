@@ -1,9 +1,14 @@
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
+from django.core.validators import RegexValidator
 from django.forms import ModelForm, FileInput
 from django import forms
 from .models import Profile, Notice
+from .choices import GENDER_CHOICES, AGE_CHOICES
+import logging
 
+logger = logging.getLogger(__name__)
+name_validator = RegexValidator(r'^[ㄱ-ㅎ가-힣][ㄱ-ㅎ가-힣]*[ㄱ-ㅎ가-힣]$', '한글만 입력가능합니다.')
 
 class CustomUserAuthenticationForm(AuthenticationForm):
     def clean(self):
@@ -15,14 +20,22 @@ class CustomUserAuthenticationForm(AuthenticationForm):
 
 
 class CustomUserCreationForm(UserCreationForm):
+    email = forms.EmailField(required=True)
+    name = forms.CharField(max_length=200, strip=True, required=True, validators=[name_validator])
+    gender = forms.ChoiceField(choices=GENDER_CHOICES, required=True)
+    age = forms.ChoiceField(choices=AGE_CHOICES, required=True)
+
     class Meta:
         model = User # User, not Profile
-        fields = ["username", "email", "password1", "password2"]
+        fields = ["username", "email", "password1", "password2", "name", "gender", "age"]
         labels = {
             "username": "Username",
             "email": "Email",
             "password1": "Password",
             "password2": "Confirm Password",
+            "name": "Name",
+            "gender": "Gender",
+            "age": "Age",
         }
 
 

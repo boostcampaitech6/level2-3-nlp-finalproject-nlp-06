@@ -18,7 +18,6 @@ class RetrospectiveView(LoginRequiredMixin, View):
         try:
             response = httpx.get(url)
             response.raise_for_status() # Raises HTTPStatusError for 4xx/5xx responses
-            response = response.json()
         except httpx.HTTPStatusError as e:
             print(f"HTTP error occurred: {e}")
             response = []

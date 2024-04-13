@@ -44,9 +44,12 @@ Chatbot
     
     {% if user.is_authenticated %}
         <div class="button-area">
+            <button id="delete-history" class="delete-history-button">대화 내용 삭제</button>
+            {% if user.is_staff %}
             <button id="extract-persona" class="extract-persona-button">유저 페르소나 추출</button>
             <button id="predict-retrospective" class="predict-retrospective-button">회고 생성</button>
-            <button id="predict-retrospective-with-remove" class="predict-retrospective-with-remove-button">대화 내용 삭제 및 회고 생성</button>
+            <button id="predict-retrospective-with-remove" class="predict-retrospective-with-remove-button">대화 내용 삭제 및 회고 생성</button>\
+            {% endif %}
         </div>
     {% endif %}
     
@@ -66,5 +69,94 @@ Chatbot
 
 {% block scripts %}
 <script src="{% static "chat/js/app.js" %}"></script>
+{% if user.is_staff %}
+<script>
+    const extractPersonaButton = document.getElementById('extract-persona');
+    extractPersonaButton.addEventListener('click', function (event) {
+        event.preventDefault();
+        const userData = document.getElementById('user-data');
+        const username = userData.dataset.username;
+        // console.log(`extractPersonaButton: ${username}`)
+        fetch(`https://${hostname}/generation/persona/`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                username: username,
+            })
+        })
+            .then(response => response.json())
+            .then(data => {
+                if (data.message === 'success') {
+                    alert('페르소나 추출 성공!');
+                } else {
+                    alert('페르소나 추출 실패');
+                }
+            });
+    });
+
+
+
+    const predictRetrospectiveButton = document.getElementById('predict-retrospective');
+    predictRetrospectiveButton.addEventListener('click', function (event) {
+        event.preventDefault();
+        const userData = document.getElementById('user-data');
+        const username = userData.dataset.username;
+        const userProfileData = document.getElementById('user-profile-data');
+        const name = userProfileData.dataset.name;
+        // console.log(`predictRetrospectiveButton: ${username}`)
+        fetch(`https://${hostname}/generation/retrospective/`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                username: username,
+                name: name,
+            })
+        })
+            .then(response => response.json())
+            .then(data => {
+                if (data.message === 'success') {
+                    alert('회고 생성 성공!');
+                } else {
+                    alert('회고 생성 실패');
+                }
+            });
+    });
+
+
+
+    const predictRetrospectiveWithRemoveButton = document.getElementById('predict-retrospective-with-remove');
+    predictRetrospectiveWithRemoveButton.addEventListener('click', function (event) {
+        event.preventDefault();
+        const userData = document.getElementById('user-data');
+        const username = userData.dataset.username;
+        const userProfileData = document.getElementById('user-profile-data');
+        const name = userProfileData.dataset.name;
+        // console.log(`predictRetrospectiveWithRemoveButton: ${username}`)
+        fetch(`https://${hostname}/generation/retrospective/`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                username: username,
+                name: name,
+                remove_history: true,
+            })
+        })
+            .then(response => response.json())
+            .then(data => {
+                if (data.message === 'success') {
+                    alert('회고 생성 성공!');
+                } else {
+                    alert('회고 생성 실패');
+                }
+            });
+    });
+</script>
+{% endif %}
 {% endblock scripts %}
 

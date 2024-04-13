@@ -2,6 +2,7 @@ from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from rest_framework.response import Response
 from rest_framework.views import APIView
+import uuid
 from .serializers import NoticeSerializer
 
 from django.contrib.auth.models import User
@@ -30,7 +31,8 @@ class NoticeView(APIView):
         notice = Notice.objects.create(
             receiver=user.profile,
             title=data.get('title'),
-            text=data.get('text')
+            text=data.get('text'),
+            retrospective_id=uuid.UUID(data.get('retrospective_id'))
         )
         notice.save()
 

@@ -21,7 +21,7 @@ notices.forEach((notice) => {
     let deleteBtn = notice.querySelector('.delete-notice div');
     deleteBtn.addEventListener('click', function(event) {
         event.preventDefault();
-        fetch(`http://${hostname}:8000/api/notices/${noticeId}/`, {
+        fetch(`https://${hostname}/api/notices/${noticeId}/`, {
             method: 'PATCH',
             headers: {
                 'Content-Type': 'application/json',
@@ -34,7 +34,7 @@ notices.forEach((notice) => {
                     throw new Error('Network response was not ok');
                 }
                 // Check if the response has content before parsing as JSON
-                if (response.status !== 201 || response.status != 204) { // 204 No Content
+                if (response.status !== 201 || response.status !== 204) { // 204 No Content
                     return response.json();
                 }
                 return null; // Or any other handling for no-content responses

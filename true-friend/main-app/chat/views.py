@@ -2,9 +2,11 @@ from django.shortcuts import render, redirect
 from django.views.generic import View, ListView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import JsonResponse
+from django.urls import reverse
 import httpx
 from httpx import HTTPStatusError, RequestError
 from asgiref.sync import sync_to_async
+from django.contrib import messages
 
 from core.constants import generation_app_url
 from .forms import *
@@ -53,6 +55,8 @@ class ChatView(LoginRequiredMixin, View):
         data = {
             'username': request.user.username,
             'name': request.user.profile.name,
+            'gender': request.user.profile.gender,
+            'age': request.user.profile.age,
             'text': user_input
         }
         try:
@@ -66,6 +70,29 @@ class ChatView(LoginRequiredMixin, View):
             response = {"text": "", "personas": []}
         else:
             response = response.json()
+
+        context = {
+            'response': response
+        }
+        return JsonResponse(context)
+    
+
+    def delete(self, request):
+        url = f"{generation_app_url}/sessions/{request.user.username}"
+        try:
+            response = httpx.delete(url)
+            response.raise_for_status()
+        except httpx.HTTPStatusError as e:
+            print(f"HTTP error occurred: {e}")
+        except Exception as e:
+            print(f"An error occurred: {e}")
+        else:
+            response = response.json()
+        
+        if response.get('message') == "error":
+            messages.error(request, "An error occurred while deleting the history. Please try again.")
+        else:
+            messages.success(request, "Chat history has been deleted successfully.")
 
         context = {
             'response': response
